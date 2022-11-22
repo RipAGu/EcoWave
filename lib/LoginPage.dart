@@ -1,0 +1,169 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
+var logger = Logger(printer: PrettyPrinter(),);
+
+
+
+class LoginPage extends StatefulWidget{
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+class _LoginPageState extends State<LoginPage>{
+  final formKey = GlobalKey<FormState>();
+  static final _emailController = TextEditingController();
+  static final _passwordController = TextEditingController();
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        key: formKey,
+        child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            LogoSection(),
+            Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Text(
+                  'Make a New Eco Wave',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.sourceSansPro(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                  )
+              ),
+            ),
+            emailField(),
+            pwField(),
+            Container(margin: EdgeInsets.only(top: 30),),
+            loginBtn(context),
+            Container(
+              margin: EdgeInsets.only(top: 30),
+              child: Text("소셜 로그인"),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  child: Text("텍스트"),
+                  onTap: () {
+
+                  },
+                ),
+                Text("회원가입", ),
+                Text("비밀번호 찾기", )
+              ],
+            )
+          ],
+        ),
+      ),
+      )
+    );
+  }
+
+  Widget emailField(){
+    return Container(
+        margin: EdgeInsets.only(top: 30),
+        padding: EdgeInsets.only(left: 80, right: 80),
+        child: SizedBox(
+          height: 40,
+          child: TextField(
+            style: GoogleFonts.sourceSansPro(),
+            controller: _emailController,
+            decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(
+                        width: 0,
+                        style: BorderStyle.none
+                    )
+                ),
+                filled: true,
+                hintText: 'test',
+                hintStyle: TextStyle(
+                  color: Color(0xff909090),
+                  fontSize: 25,
+                ),
+                fillColor: Color(0xffEFEFEF)
+            ),
+            keyboardType: TextInputType.emailAddress,
+          ),
+        )
+    );
+  }
+
+  Widget pwField(){
+    return Container(
+        margin: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(left: 80, right: 80),
+        child: SizedBox(
+          height: 40,
+          child: TextField(
+            style: GoogleFonts.sourceSansPro(),
+            controller: _passwordController,
+            decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(
+                        width: 0,
+                        style: BorderStyle.none
+                    )
+                ),
+                filled: true,
+                hintText: 'test',
+                hintStyle: TextStyle(
+                  color: Color(0xff909090),
+                  fontSize: 25,
+                ),
+                fillColor: Color(0xffEFEFEF)
+            ),
+            keyboardType: TextInputType.emailAddress,
+          ),
+        )
+    );
+  }
+  Widget loginBtn(BuildContext context){
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.42,
+      height: MediaQuery.of(context).size.height * 0.05,
+      child: ElevatedButton(
+        onPressed: (){
+          _emailController.clear();
+          _passwordController.clear();
+    },
+      child: Text("Let's Plogging"),
+      style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))),),
+
+    );
+  }
+}
+
+
+
+class LogoSection extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xff00A1E9),
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))
+      ),
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height * 0.46,
+      child: FittedBox(fit: BoxFit.scaleDown,
+        child: SvgPicture.asset('assets/icons/logo.svg',
+        semanticsLabel: "Flip",
+        width: MediaQuery.of(context).size.width * 0.56,
+          )
+        )
+    );
+  }
+}
+
+
