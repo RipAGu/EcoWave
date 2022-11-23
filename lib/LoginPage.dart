@@ -1,71 +1,104 @@
+import 'package:eco_wave/ResigterPage1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
-var logger = Logger(printer: PrettyPrinter(),);
 
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
 
-
-class LoginPage extends StatefulWidget{
+class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
-class _LoginPageState extends State<LoginPage>{
+
+class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   static final _emailController = TextEditingController();
   static final _passwordController = TextEditingController();
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        key: formKey,
-        child: SingleChildScrollView(
+        body: Container(
+      width: double.infinity,
+      height: double.infinity,
+      key: formKey,
+      child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             LogoSection(),
             Container(
               margin: EdgeInsets.only(top: 30),
-              child: Text(
-                  'Make a New Eco Wave',
+              child: Text('Make a New Eco Wave',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.sourceSansPro(
+                  style: TextStyle(
+                    fontFamily: 'Source_Sans_Pro',
                     fontSize: 30,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700
+
+
+
                   )
               ),
             ),
             emailField(),
             pwField(),
-            Container(margin: EdgeInsets.only(top: 30),),
+            Container(
+              margin: EdgeInsets.only(top: 30),
+            ),
             loginBtn(context),
             Container(
               margin: EdgeInsets.only(top: 30),
-              child: Text("소셜 로그인"),
+              child: Text(
+                "소셜 로그인",
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                ),
                 GestureDetector(
-                  child: Text("텍스트"),
+                  child: Text(
+                    "회원가입",
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 14, color: Color(0xff878787)),
+                  ),
                   onTap: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage1()));
                   },
                 ),
-                Text("회원가입", ),
-                Text("비밀번호 찾기", )
+                Container(
+                  margin: EdgeInsets.only(right: 10),
+                ),
+                SizedBox(
+                    width: 10,
+                    child: Image(
+                      image: AssetImage('assets/icons/line_1.png'),
+                    )),
+                Container(
+                  margin: EdgeInsets.only(right: 10),
+                ),
+                GestureDetector(
+                  child: Text(
+                    "비밀번호 찾기",
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 14, color: Color(0xff878787)),
+                  ),
+                  onTap: () {},
+                ),
               ],
             )
           ],
         ),
       ),
-      )
-    );
+    ));
   }
 
-  Widget emailField(){
+  Widget emailField() {
     return Container(
         margin: EdgeInsets.only(top: 30),
         padding: EdgeInsets.only(left: 80, right: 80),
@@ -75,29 +108,24 @@ class _LoginPageState extends State<LoginPage>{
             style: GoogleFonts.sourceSansPro(),
             controller: _emailController,
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(
-                        width: 0,
-                        style: BorderStyle.none
-                    )
-                ),
+                    borderSide: BorderSide(width: 0, style: BorderStyle.none)),
                 filled: true,
-                hintText: 'test',
+                hintText: 'ID',
                 hintStyle: TextStyle(
                   color: Color(0xff909090),
                   fontSize: 25,
                 ),
-                fillColor: Color(0xffEFEFEF)
-            ),
+                fillColor: Color(0xffEFEFEF)),
             keyboardType: TextInputType.emailAddress,
           ),
-        )
-    );
+        ));
   }
 
-  Widget pwField(){
+  Widget pwField() {
     return Container(
         margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.only(left: 80, right: 80),
@@ -107,63 +135,63 @@ class _LoginPageState extends State<LoginPage>{
             style: GoogleFonts.sourceSansPro(),
             controller: _passwordController,
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(
-                        width: 0,
-                        style: BorderStyle.none
-                    )
-                ),
+                    borderSide: BorderSide(width: 0, style: BorderStyle.none)),
                 filled: true,
-                hintText: 'test',
+                hintText: 'PW',
                 hintStyle: TextStyle(
                   color: Color(0xff909090),
                   fontSize: 25,
                 ),
-                fillColor: Color(0xffEFEFEF)
-            ),
+                fillColor: Color(0xffEFEFEF)),
             keyboardType: TextInputType.emailAddress,
           ),
-        )
-    );
+        ));
   }
-  Widget loginBtn(BuildContext context){
+
+  Widget loginBtn(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.42,
-      height: MediaQuery.of(context).size.height * 0.05,
+      height: MediaQuery.of(context).size.height * 0.055,
       child: ElevatedButton(
-        onPressed: (){
+        onPressed: () {
           _emailController.clear();
           _passwordController.clear();
-    },
-      child: Text("Let's Plogging"),
-      style: ElevatedButton.styleFrom(shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))),),
-
-    );
-  }
-}
-
-
-
-class LogoSection extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xff00A1E9),
-        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))
+        },
+        child: Text(
+          "Let's Plogging",
+          style: TextStyle(
+              fontFamily: 'Source_Sans_Pro',fontSize: 20, fontWeight: FontWeight.w700),
+        ),
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0xff00A1E9),
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0))),
       ),
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.46,
-      child: FittedBox(fit: BoxFit.scaleDown,
-        child: SvgPicture.asset('assets/icons/logo.svg',
-        semanticsLabel: "Flip",
-        width: MediaQuery.of(context).size.width * 0.56,
-          )
-        )
     );
   }
 }
 
-
+class LogoSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: const BoxDecoration(
+            color: Color(0xff00A1E9),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30))),
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.46,
+        child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: SvgPicture.asset(
+              'assets/icons/logo.svg',
+              semanticsLabel: "Flip",
+              width: MediaQuery.of(context).size.width * 0.56,
+            )));
+  }
+}
