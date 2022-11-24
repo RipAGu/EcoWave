@@ -1,4 +1,5 @@
 import 'package:eco_wave/LoginPage.dart';
+import 'package:eco_wave/MainPage.dart';
 import 'package:eco_wave/ProfileSettingPage.dart';
 import 'package:eco_wave/RegisterPage2.dart';
 import 'package:eco_wave/RegisterPage3.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/registerPage2' : (BuildContext context) => RegisterPage2(),
         '/registerPage3' : (BuildContext context) => RegisterPage3(),
         '/profileSettingPage' : (BuildContext context) => ProfileSettingPage(),
+        '/mainPage' : (BuildContext context) => MainPage(),
       },
     );
   }

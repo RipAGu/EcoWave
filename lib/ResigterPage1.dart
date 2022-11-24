@@ -17,19 +17,18 @@ class _RegisterPage1 extends State<RegisterPage1> {
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(
+
           child: Column(
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.035),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
+
                   child: SvgPicture.asset(
                     'assets/icons/mini_logo.svg',
                     semanticsLabel: "Flip",
                     width: MediaQuery.of(context).size.width * 0.4,
                   ),
-                ),
               ),
               Container(
                 margin: EdgeInsets.only(

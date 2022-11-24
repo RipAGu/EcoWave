@@ -70,7 +70,7 @@ class _RegisterPage3 extends State<RegisterPage3>{
 
   settingBtnEvent(){
 
-    Navigator.of(context).pushNamedAndRemoveUntil('/profileSettingPage', ModalRoute.withName('/loginPage'));
+    Navigator.of(context).pushNamedAndRemoveUntil('/profileSettingPage', ModalRoute.withName('/'));
 
 
   }
