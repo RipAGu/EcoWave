@@ -1,4 +1,8 @@
 import 'package:eco_wave/LoginPage.dart';
+import 'package:eco_wave/ProfileSettingPage.dart';
+import 'package:eco_wave/RegisterPage2.dart';
+import 'package:eco_wave/RegisterPage3.dart';
+import 'package:eco_wave/ResigterPage1.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,6 +21,14 @@ class MyApp extends StatelessWidget {
 
       ),
       home: LoginPage(),
+
+      routes: <String, WidgetBuilder>{
+        '/loginPage' : (BuildContext context) =>  LoginPage(),
+        '/registerPage1' : (BuildContext context) => RegisterPage1(),
+        '/registerPage2' : (BuildContext context) => RegisterPage2(),
+        '/registerPage3' : (BuildContext context) => RegisterPage3(),
+        '/profileSettingPage' : (BuildContext context) => ProfileSettingPage(),
+      },
     );
   }
 }

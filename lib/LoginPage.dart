@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: 14, color: Color(0xff878787)),
                   ),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage1()));
+                    Navigator.of(context).pushNamed('/registerPage1');
                   },
                 ),
                 Container(

@@ -109,6 +109,7 @@ class _RegisterPage1 extends State<RegisterPage1> {
   }
 
   registerBtnEvent(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage2()));
+    Navigator.of(context).pushNamed('/registerPage2');
+
   }
 }
