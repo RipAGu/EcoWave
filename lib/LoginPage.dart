@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   loginBtnEvent(){
-      Navigator.of(context).pushNamed('/mainPage');
+      Navigator.of(context).pushNamed('/mainNavigation');
 
   }
 }

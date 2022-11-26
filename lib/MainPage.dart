@@ -1,4 +1,9 @@
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:eco_wave/LoginPage.dart';
+import 'package:eco_wave/ProfileSettingPage.dart';
+import 'package:eco_wave/RegisterPage2.dart';
+import 'package:eco_wave/ResigterPage1.dart';
+import 'package:eco_wave/common/my_flutter_app_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,13 +15,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
+
   var data = [
     ['여의도에서 산책하며 플로깅해요', '플로깅', '3월 5일 일요일 14:00~16:00', '1/4', '여의도 한강공원'],
-    ['인왕산 등산하면서 클린산행해요','클린산행' , '3월 11일 토요일 09:00~13:00','3/4', '인왕산'],
-    ['인왕산 등산하면서 클린산행해요','클린산행' , '3월 11일 토요일 09:00~13:00','3/4', '인왕산'],
-    ['인왕산 등산하면서 클린산행해요','클린산행' , '3월 11일 토요일 09:00~13:00','3/4', '인왕산'],
-    ['인왕산 등산하면서 클린산행해요','클린산행' , '3월 11일 토요일 09:00~13:00','3/4', '인왕산'],
-    ['인왕산 등산하면서 클린산행해요','클린산행' , '3월 11일 토요일 09:00~13:00','3/4', '인왕산']
+    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
+    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
+    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
+    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
+    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산']
   ];
   static final _searchController = TextEditingController();
   final controller = PageController(viewportFraction: 0.8, keepPage: true);
@@ -41,6 +47,7 @@ class _MainPage extends State<MainPage> {
             ));
 
     return Scaffold(
+      extendBody: true,
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -64,7 +71,7 @@ class _MainPage extends State<MainPage> {
                         width: MediaQuery.of(context).size.width * 0.12,
                         height: MediaQuery.of(context).size.height * 0.12,
                       ),
-                      onPressed: () {},
+                      onPressed: () {    Navigator.of(context).pushNamed('/createMeetingPage');},
                     ),
                   ),
                   Container(
@@ -93,7 +100,6 @@ class _MainPage extends State<MainPage> {
                   ),
                 ],
               ),
-
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.17,
                 child: PageView.builder(
@@ -121,7 +127,6 @@ class _MainPage extends State<MainPage> {
               Container(
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.023)),
-
               searchField(),
               Container(
                 width: double.infinity,
@@ -130,19 +135,18 @@ class _MainPage extends State<MainPage> {
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index){
+                    itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        child: floggingPost(data[index][0], data[index][1], data[index][2], data[index][3], data[index][4]),
-
+                        child: floggingPost(data[index][0], data[index][1],
+                            data[index][2], data[index][3], data[index][4]),
                       );
-                    }
-                ),
+                    }),
               ),
-
             ],
           ),
         ),
       ),
+
     );
   }
 
@@ -186,7 +190,8 @@ class _MainPage extends State<MainPage> {
     );
   }
 
-  Widget floggingPost(String title, String option, String date, String capacity, String location) {
+  Widget floggingPost(String title, String option, String date, String capacity,
+      String location) {
     return GestureDetector(
       onTap: () {
         logger.d('ts');
@@ -217,7 +222,10 @@ class _MainPage extends State<MainPage> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Container(margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.009),),
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.009),
+                  ),
                   Row(
                     children: [
                       Image(
@@ -236,12 +244,16 @@ class _MainPage extends State<MainPage> {
                               color: Color(0xff878787)),
                         ),
                       ),
-                      Container(margin: EdgeInsets.only(left: 7),),
+                      Container(
+                        margin: EdgeInsets.only(left: 7),
+                      ),
                       Image(
                         image: AssetImage('assets/icons/calendar.png'),
                         width: MediaQuery.of(context).size.width * 0.043,
                       ),
-                      Container(margin: EdgeInsets.only(left: 4),),
+                      Container(
+                        margin: EdgeInsets.only(left: 4),
+                      ),
                       Text(
                         date,
                         style: TextStyle(
@@ -261,7 +273,6 @@ class _MainPage extends State<MainPage> {
                         image: AssetImage('assets/icons/human_icon.png'),
                         width: MediaQuery.of(context).size.width * 0.043,
                       ),
-
                       Container(
                         margin: EdgeInsets.only(left: 4),
                         width: MediaQuery.of(context).size.width * 0.13,
@@ -274,15 +285,16 @@ class _MainPage extends State<MainPage> {
                               color: Color(0xff878787)),
                         ),
                       ),
-                      Container(margin: EdgeInsets.only(left: 7),),
-
-
+                      Container(
+                        margin: EdgeInsets.only(left: 7),
+                      ),
                       Image(
                         image: AssetImage('assets/icons/location_icon.png'),
                         width: MediaQuery.of(context).size.width * 0.043,
                       ),
-                      Container(margin: EdgeInsets.only(left: 4),),
-
+                      Container(
+                        margin: EdgeInsets.only(left: 4),
+                      ),
                       Text(
                         location,
                         style: TextStyle(
@@ -301,4 +313,7 @@ class _MainPage extends State<MainPage> {
       ),
     );
   }
+
+
 }
+

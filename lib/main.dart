@@ -1,4 +1,6 @@
+import 'package:eco_wave/CreateMeetingPage.dart';
 import 'package:eco_wave/LoginPage.dart';
+import 'package:eco_wave/MainNavigation.dart';
 import 'package:eco_wave/MainPage.dart';
 import 'package:eco_wave/ProfileSettingPage.dart';
 import 'package:eco_wave/RegisterPage2.dart';
@@ -31,6 +33,8 @@ class MyApp extends StatelessWidget {
         '/registerPage3' : (BuildContext context) => RegisterPage3(),
         '/profileSettingPage' : (BuildContext context) => ProfileSettingPage(),
         '/mainPage' : (BuildContext context) => MainPage(),
+        '/mainNavigation' : (BuildContext context) => MainNavigation(),
+        '/createMeetingPage' : (BuildContext context) => CreateMeetingPage(),
       },
     );
   }
