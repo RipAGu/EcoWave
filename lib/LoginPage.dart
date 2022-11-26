@@ -38,8 +38,6 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 30,
                     fontWeight: FontWeight.w700
 
-
-
                   )
               ),
             ),
@@ -62,10 +60,10 @@ class _LoginPageState extends State<LoginPage> {
                   margin: EdgeInsets.only(right: 30),
                 ),
                 GestureDetector(
-                  child: Text(
+                  child: const Text(
                     "회원가입",
-                    style: GoogleFonts.plusJakartaSans(
-                        fontSize: 14, color: Color(0xff878787)),
+                    style: TextStyle(
+                       fontFamily: 'Plus_Jakarta_Sans', fontSize: 14, color: Color(0xff878787)),
                   ),
                   onTap: () {
                     Navigator.of(context).pushNamed('/registerPage1');
@@ -85,8 +83,8 @@ class _LoginPageState extends State<LoginPage> {
                 GestureDetector(
                   child: Text(
                     "비밀번호 찾기",
-                    style: GoogleFonts.plusJakartaSans(
-                        fontSize: 14, color: Color(0xff878787)),
+                    style: TextStyle(
+                       fontFamily: 'Plus_Jakarta_Sans', fontSize: 14, color: Color(0xff878787)),
                   ),
                   onTap: () {},
                 ),
@@ -109,15 +107,16 @@ class _LoginPageState extends State<LoginPage> {
             controller: _emailController,
             decoration: InputDecoration(
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide(width: 0, style: BorderStyle.none)),
                 filled: true,
                 hintText: 'ID',
                 hintStyle: TextStyle(
+                  fontFamily: 'Plus_Jakarta_Sans',
                   color: Color(0xff909090),
-                  fontSize: 25,
+                  fontSize: 20,
                 ),
                 fillColor: Color(0xffEFEFEF)),
             keyboardType: TextInputType.emailAddress,
@@ -136,15 +135,16 @@ class _LoginPageState extends State<LoginPage> {
             controller: _passwordController,
             decoration: InputDecoration(
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide(width: 0, style: BorderStyle.none)),
                 filled: true,
                 hintText: 'PW',
                 hintStyle: TextStyle(
+                  fontFamily: 'Plus_Jakarta_Sans',
                   color: Color(0xff909090),
-                  fontSize: 25,
+                  fontSize: 20,
                 ),
                 fillColor: Color(0xffEFEFEF)),
             keyboardType: TextInputType.emailAddress,
@@ -158,8 +158,7 @@ class _LoginPageState extends State<LoginPage> {
       height: MediaQuery.of(context).size.height * 0.055,
       child: ElevatedButton(
         onPressed: () {
-          _emailController.clear();
-          _passwordController.clear();
+          loginBtnEvent();
         },
         child: Text(
           "Let's Plogging",
@@ -173,12 +172,18 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  loginBtnEvent(){
+      Navigator.of(context).pushNamed('/mainPage');
+
+  }
 }
 
 class LogoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.13),
         decoration: const BoxDecoration(
             color: Color(0xff00A1E9),
             borderRadius: BorderRadius.only(
@@ -186,12 +191,20 @@ class LogoSection extends StatelessWidget {
                 bottomRight: Radius.circular(30))),
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.46,
-        child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: SvgPicture.asset(
-              'assets/icons/logo.svg',
-              semanticsLabel: "Flip",
-              width: MediaQuery.of(context).size.width * 0.56,
-            )));
+
+        child : Container(
+          child: SvgPicture.asset(
+            'assets/icons/logo.svg',
+
+          ),
+
+
+              ),
+
+
+
+    );
   }
+
+
 }

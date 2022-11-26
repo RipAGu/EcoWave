@@ -53,8 +53,6 @@ class _RegisterPage2 extends State<RegisterPage2>{
               ),
               Container(margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.041),),
               certificationBtn(context)
-
-
             ],
           ),
         ),

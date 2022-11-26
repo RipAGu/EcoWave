@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
+  logger.d("tsg");
 }
 
 class MyApp extends StatelessWidget {

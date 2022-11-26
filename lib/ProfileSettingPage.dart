@@ -31,15 +31,13 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
                     Container(
                       margin: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.043),
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
+                      child: SizedBox(
                         child: SvgPicture.asset(
                           'assets/icons/avatar_1.svg',
-                          semanticsLabel: "Flip",
                           width: MediaQuery.of(context).size.width * 0.144,
-
                         ),
-                      ),
+                      )
+
                     ),
                     Container(
                       margin: EdgeInsets.only(
