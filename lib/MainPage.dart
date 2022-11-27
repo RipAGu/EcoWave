@@ -194,8 +194,7 @@ class _MainPage extends State<MainPage> {
       String location) {
     return GestureDetector(
       onTap: () {
-        logger.d('ts');
-      },
+        Navigator.of(context).pushNamed('/meetingDetailPage');      },
       child: Container(
         padding: EdgeInsets.all(10),
         child: Row(

@@ -2,10 +2,14 @@ import 'package:eco_wave/CreateMeetingPage.dart';
 import 'package:eco_wave/LoginPage.dart';
 import 'package:eco_wave/MainNavigation.dart';
 import 'package:eco_wave/MainPage.dart';
+import 'package:eco_wave/MeetingDetailPage.dart';
+import 'package:eco_wave/ModifyProfilePage.dart';
+import 'package:eco_wave/MyPage.dart';
 import 'package:eco_wave/ProfileSettingPage.dart';
 import 'package:eco_wave/RegisterPage2.dart';
 import 'package:eco_wave/RegisterPage3.dart';
 import 'package:eco_wave/ResigterPage1.dart';
+import 'package:eco_wave/SettingPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -35,6 +39,13 @@ class MyApp extends StatelessWidget {
         '/mainPage' : (BuildContext context) => MainPage(),
         '/mainNavigation' : (BuildContext context) => MainNavigation(),
         '/createMeetingPage' : (BuildContext context) => CreateMeetingPage(),
+        '/myPage' : (BuildContext context) => MyPage(),
+        '/modifyProfilePage' : (BuildContext context) => ModifyProfilePage(),
+        '/settingPage' : (BuildContext context) => SettingPage(),
+        '/meetingDetailPage' : (BuildContext context) => MeetingDetailPage(),
+
+
+
       },
     );
   }

@@ -8,7 +8,7 @@ class CreateMeetingPage extends StatefulWidget {
 }
 
 class _CreateMeetingPage extends State<CreateMeetingPage> {
-  final List<bool> _selectedOption = <bool>[true, false, false];
+  final List<bool> _selectedOption = <bool>[false, false, false];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +67,16 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
                     Container(margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.055),),
                     optionButton(),
 
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.023,
+                    left: MediaQuery.of(context).size.width * 0.065,
+                    right: MediaQuery.of(context).size.width * 0.065),
+                child: Row(
+                  children: [
+                    Text('일정', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, fontFamily: 'Merri_Weather'),),
                   ],
                 ),
               )
