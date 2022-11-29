@@ -1,57 +1,72 @@
-import 'package:eco_wave/LoginPage.dart';
-import 'package:eco_wave/MainPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
-class App extends StatelessWidget {
+
+class TableBasicsExample extends StatefulWidget {
+  @override
+  _TableBasicsExampleState createState() => _TableBasicsExampleState();
+}
+
+class _TableBasicsExampleState extends State<TableBasicsExample> {
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0x8000A1E9),
-      body: Stack(
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.037),
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  size: 40,
-                ),
-                onPressed: () {},
-              ),
-              Container(
-                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1, left: MediaQuery.of(context).size.width * 0.45),
-                child: Text('사진'
-                ),
-              )
-            ],
-          ),
+      appBar: AppBar(
+        title: Text('TableCalendar - Basics'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 500,
+              width: 300,
+            child: TableCalendar(
+              firstDay: DateTime.now(),
+              lastDay: DateTime(2023,1,1),
+              focusedDay: _focusedDay,
+              calendarFormat: _calendarFormat,
+              selectedDayPredicate: (day) {
+                // Use `selectedDayPredicate` to determine which day is currently selected.
+                // If this returns true, then `day` will be marked as selected.
 
-          DraggableScrollableSheet(
-            initialChildSize: 0.5,
-            minChildSize: 0.5,
-            maxChildSize: 0.85,
-              builder: (BuildContext context, ScrollController scrolController){
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40))),
-                child: SingleChildScrollView(
-                  controller: scrolController,
-                  child: Text('dfsdf'),
-
-
-                ),
-              );
+                // Using `isSameDay` is recommended to disregard
+                // the time-part of compared DateTime objects.
+                return isSameDay(_selectedDay, day);
               },
-          )
+              onDaySelected: (selectedDay, focusedDay) {
+                if (!isSameDay(_selectedDay, selectedDay)) {
+                  // Call `setState()` when updating the selected day
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                  });
+                }
+              },
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  // Call `setState()` when updating calendar format
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
+                // No need to call `setState()` here
+                _focusedDay = focusedDay;
+              },
+            ),
+          ),
+          ),
+          Text(DateFormat('yy/MM/dd').format(_focusedDay))
         ],
       ),
     );
   }
+
 }

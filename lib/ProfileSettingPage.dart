@@ -64,6 +64,7 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
                         Container(
                           margin: EdgeInsets.only(
                               left: MediaQuery.of(context).size.width * 0.07),
+
                         ),
                         Text(
                           '이름',
@@ -111,6 +112,9 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
     return Container(
         margin:
             EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.055),
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Color(0xffD6D6D6)),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.72,
           child: TextField(
@@ -119,10 +123,8 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
                 isDense: true,
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Color(0xffD6D6D6))),
-                hintText: "이름",
+                border: InputBorder.none,
+                hintText: "입력하세요",
                 hintStyle: TextStyle(color: Color(0xff878787))),
           ),
         ));
@@ -131,7 +133,10 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
   Widget introduceField() {
     return Container(
         margin:
-            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.055),
+        EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.055),
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Color(0xffD6D6D6)),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.72,
           child: TextField(
@@ -139,11 +144,9 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
             decoration: InputDecoration(
                 isDense: true,
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Color(0xffD6D6D6))),
-                hintText: "소개",
+                EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                border: InputBorder.none,
+                hintText: "입력하세요",
                 hintStyle: TextStyle(color: Color(0xff878787))),
           ),
         ));
@@ -173,7 +176,7 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
   }
 
   settingBtnEvent() {
-    Navigator.of(context).pushNamedAndRemoveUntil('/mainPage', ModalRoute.withName('/'));
+    Navigator.of(context).pushNamedAndRemoveUntil('/mainNavigation', ModalRoute.withName('/'));
 
   }
 }

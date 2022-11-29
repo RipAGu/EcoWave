@@ -43,6 +43,10 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   dot_navigation_bar: ^1.0.1+4
   syncfusion_flutter_datepicker: ^20.3.58
+  table_calendar: ^3.0.8
+  configurable_expansion_tile: ^1.0.0
+  time_picker_sheet: ^0.0.2+1
+  adaptive_spinner: ^3.0.0
 
 
 dev_dependencies:

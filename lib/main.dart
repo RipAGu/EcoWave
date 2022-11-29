@@ -9,6 +9,7 @@ import 'package:eco_wave/ProfileSettingPage.dart';
 import 'package:eco_wave/RegisterPage2.dart';
 import 'package:eco_wave/RegisterPage3.dart';
 import 'package:eco_wave/ResigterPage1.dart';
+import 'package:eco_wave/SearchSettingPage.dart';
 import 'package:eco_wave/SettingPage.dart';
 import 'package:flutter/material.dart';
 
@@ -43,6 +44,8 @@ class MyApp extends StatelessWidget {
         '/modifyProfilePage' : (BuildContext context) => ModifyProfilePage(),
         '/settingPage' : (BuildContext context) => SettingPage(),
         '/meetingDetailPage' : (BuildContext context) => MeetingDetailPage(),
+        '/searchSettingPage' : (BuildContext context) => SearchSettingPage(),
+
 
 
 

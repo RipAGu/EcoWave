@@ -21,7 +21,7 @@ class MeetingDetailPage extends StatelessWidget{
                   Icons.arrow_back,
                   size: 40,
                 ),
-                onPressed: () {},
+                onPressed: () {Navigator.pop(context);},
               ),
               Container(
                 margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1, left: MediaQuery.of(context).size.width * 0.45),
@@ -152,7 +152,7 @@ class MeetingDetailPage extends StatelessWidget{
                         Container(
                           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.022),
                           width: MediaQuery.of(context).size.width * 0.85,
-                          child: Flexible(
+
                             child: RichText(
                               maxLines: 10,
                               overflow: TextOverflow.ellipsis,
@@ -168,7 +168,7 @@ class MeetingDetailPage extends StatelessWidget{
                                 )
                               ),
                             ),
-                          ),
+
                         ),
                         Container(margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.022),),
                         Text('장소', style: TextStyle(
@@ -195,7 +195,8 @@ class MeetingDetailPage extends StatelessWidget{
                             'assets/icons/avatar_1.svg',
                             width: MediaQuery.of(context).size.width * 0.1,
                           ),
-                        )
+                        ),
+                        Container(margin: EdgeInsets.only(top: 100),)
 
                       ],
 
@@ -215,8 +216,7 @@ class MeetingDetailPage extends StatelessWidget{
   }
 
   Widget participateBtn(BuildContext context){
-    return Expanded(
-      child: Align(
+    return Align(
         alignment: FractionalOffset.bottomCenter,
         child: Container(
           margin: EdgeInsets.only(bottom: 10),
@@ -224,9 +224,10 @@ class MeetingDetailPage extends StatelessWidget{
           height: 50,
           child: ElevatedButton(
             onPressed: () {
+              yesNo(context);
             },
             child: Text(
-              "수정하기",
+              "참가하기",
               style: TextStyle(
                   fontFamily: 'Source_Sans_Pro',
                   fontSize: 20,
@@ -238,7 +239,40 @@ class MeetingDetailPage extends StatelessWidget{
                     borderRadius: new BorderRadius.circular(30.0))),
           ),
         ),
-      ),
+
     );
+  }
+  Future yesNo(BuildContext context){
+    return showDialog(context: context, builder: (BuildContext context){
+      return CupertinoAlertDialog(
+        title: Text('이번 모임을 참가하겠습니다', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'Plus_Jakarta_Sans', fontSize: 20),),
+        actions: [
+          CupertinoDialogAction(onPressed: (){
+            Navigator.pop(context);
+            yes(context);
+
+          },
+            child: Text('네', style: TextStyle(color: Color(0xffC8CBD2)),),),
+          CupertinoDialogAction(onPressed: (){Navigator.pop(context);}, child: Text('아니오',style: TextStyle(color: Color(0xffC8CBD2)),),)
+
+        ],
+      );
+    });
+  }
+
+  Future yes(BuildContext context){
+    return showDialog(context: context, builder: (BuildContext context){
+      return CupertinoAlertDialog(
+        title: Text('참가 신청이 완료되었습니다', style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'Plus_Jakarta_Sans', fontSize: 20),),
+        actions: [
+          CupertinoDialogAction(onPressed: (){
+            Navigator.pop(context);
+
+          },
+            child: Text('네', style: TextStyle(color: Color(0xffC8CBD2)),),),
+
+        ],
+      );
+    });
   }
 }

@@ -6,6 +6,7 @@ import 'package:eco_wave/RegisterPage2.dart';
 import 'package:eco_wave/ResigterPage1.dart';
 import 'package:eco_wave/common/my_flutter_app_icons.dart';
 import 'package:eco_wave/test.dart';
+import 'package:eco_wave/test2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class MainNavigation extends StatefulWidget{
 
 class _MainNavigation extends State<MainNavigation>{
   int _currentIndex = 0;
-  final List<Widget> _children = [MainPage(), App(), Text('임시페이지'), MyPage()];
+  final List<Widget> _children = [MainPage(), TableBasicsExample(), MyApp(), MyPage()];
   @override
   Widget build(BuildContext context){
     return Scaffold(

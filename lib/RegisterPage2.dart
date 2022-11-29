@@ -63,6 +63,9 @@ class _RegisterPage2 extends State<RegisterPage2>{
 
   Widget certificationNumberField(){
     return Container(
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Color(0xffD6D6D6)),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         margin: EdgeInsets.only(left: 30, right: 30, top: 30),
         child: SizedBox(
           child: TextField(
@@ -70,9 +73,7 @@ class _RegisterPage2 extends State<RegisterPage2>{
             decoration: InputDecoration(
               isDense: true,
                 contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Color(0xffD6D6D6))),
+                border: InputBorder.none,
                 hintText: "인증번호",
                 hintStyle: TextStyle(color: Color(0xff878787))
             ),

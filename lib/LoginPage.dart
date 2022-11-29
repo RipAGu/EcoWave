@@ -48,16 +48,29 @@ class _LoginPageState extends State<LoginPage> {
             ),
             loginBtn(context),
             Container(
+              padding: EdgeInsets.only(left: 90,right: 90),
               margin: EdgeInsets.only(top: 30),
-              child: Text(
-                "소셜 로그인",
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                children: [
+                  Image(image: AssetImage('assets/icons/kakaotalk.png'),
+                    width: MediaQuery.of(context).size.width * 0.096,
+                    ),
+                  Image(image: AssetImage('assets/icons/naver.png'),
+                      width: MediaQuery.of(context).size.width * 0.096
+                  ),
+                  Image(image: AssetImage('assets/icons/google.png'),
+                      width: MediaQuery.of(context).size.width * 0.096
+                  )
+                ],
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.only(right: 30),
+                  margin: EdgeInsets.only(right: 10),
                 ),
                 GestureDetector(
                   child: const Text(
@@ -114,9 +127,10 @@ class _LoginPageState extends State<LoginPage> {
                 filled: true,
                 hintText: 'ID',
                 hintStyle: TextStyle(
-                  fontFamily: 'Plus_Jakarta_Sans',
+                  fontFamily: 'Source_Sans_Pro',
                   color: Color(0xff909090),
                   fontSize: 20,
+                  fontWeight: FontWeight.w500
                 ),
                 fillColor: Color(0xffEFEFEF)),
             keyboardType: TextInputType.emailAddress,
@@ -142,9 +156,11 @@ class _LoginPageState extends State<LoginPage> {
                 filled: true,
                 hintText: 'PW',
                 hintStyle: TextStyle(
-                  fontFamily: 'Plus_Jakarta_Sans',
+                  fontFamily: 'Source_Sans_Pro',
                   color: Color(0xff909090),
                   fontSize: 20,
+                    fontWeight: FontWeight.w500
+
                 ),
                 fillColor: Color(0xffEFEFEF)),
             keyboardType: TextInputType.emailAddress,
@@ -163,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Text(
           "Let's Plogging",
           style: TextStyle(
-              fontFamily: 'Source_Sans_Pro',fontSize: 20, fontWeight: FontWeight.w700),
+              fontFamily: 'Source_Sans_Pro',fontSize: 18, fontWeight: FontWeight.w700),
         ),
         style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xff00A1E9),
@@ -192,14 +208,12 @@ class LogoSection extends StatelessWidget {
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.46,
 
-        child : Container(
+
           child: SvgPicture.asset(
             'assets/icons/logo.svg',
-
           ),
 
 
-              ),
 
 
 

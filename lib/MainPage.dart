@@ -153,6 +153,9 @@ class _MainPage extends State<MainPage> {
   Widget searchField() {
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10),
+      decoration: BoxDecoration(
+          border: Border.all(width: 1, color: Color(0xffD6D6D6)),
+          borderRadius: BorderRadius.all(Radius.circular(10))),
       child: TextField(
         controller: _searchController,
         decoration: InputDecoration(
@@ -170,12 +173,11 @@ class _MainPage extends State<MainPage> {
               width: MediaQuery.of(context).size.width * 0.07,
               height: MediaQuery.of(context).size.height * 0.07,
             ),
-            onPressed: () {},
+            onPressed: () {    Navigator.of(context).pushNamed('/searchSettingPage');
+            },
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Color(0xffD6D6D6))),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          border: InputBorder.none,
           hintText: 'Search Plogging',
           hintStyle: TextStyle(fontSize: 14, color: Color(0xff878787)),
         ),

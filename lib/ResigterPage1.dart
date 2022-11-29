@@ -53,14 +53,16 @@ class _RegisterPage1 extends State<RegisterPage1> {
   Widget emailField() {
     return Container(
       margin: EdgeInsets.only(left: 30, right: 30, top: 30),
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Color(0xffD6D6D6)),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         child: SizedBox(
           child: TextField(
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
+                border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Color(0xffD6D6D6))),
+
             hintText: "이메일 주소",
             hintStyle: TextStyle(color: Color(0xff878787))),
       ),
@@ -71,14 +73,16 @@ class _RegisterPage1 extends State<RegisterPage1> {
   Widget pwField(){
     return Container(
         margin: EdgeInsets.only(left: 30, right: 30, top: 30),
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Color(0xffD6D6D6)),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         child: SizedBox(
           child: TextField(
-            style: GoogleFonts.sourceSansPro(),
+            style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
+                border: InputBorder.none,
                 contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Color(0xffD6D6D6))),
+
                 hintText: "비밀번호",
                 hintStyle: TextStyle(color: Color(0xff878787))),
           ),

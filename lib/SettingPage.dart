@@ -29,7 +29,7 @@ class _SettingPage extends State<SettingPage> {
                     Icons.arrow_back,
                     size: 40,
                   ),
-                  onPressed: () {},
+                  onPressed: () {Navigator.pop(context);},
                 ),
                 Container(
                     child: Text(
