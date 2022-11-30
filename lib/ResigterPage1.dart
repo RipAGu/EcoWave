@@ -2,7 +2,6 @@ import 'package:eco_wave/RegisterPage2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RegisterPage1 extends StatefulWidget {
   @override
@@ -100,8 +99,7 @@ class _RegisterPage1 extends State<RegisterPage1> {
         },
         child: Text(
           "가입하기",
-          style: GoogleFonts.sourceSansPro(
-              fontSize: 20, fontWeight: FontWeight.w700),
+          style: TextStyle(fontFamily: 'Source_Sans_Pro', fontWeight: FontWeight.w700, fontSize: 20)
         ),
         style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xff00A1E9),

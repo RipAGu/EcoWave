@@ -2,7 +2,6 @@ import 'package:eco_wave/ResigterPage1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 
 var logger = Logger(
@@ -116,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
         child: SizedBox(
           height: 40,
           child: TextField(
-            style: GoogleFonts.sourceSansPro(),
+            style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             controller: _emailController,
             decoration: InputDecoration(
                 contentPadding:
@@ -145,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
         child: SizedBox(
           height: 40,
           child: TextField(
-            style: GoogleFonts.sourceSansPro(),
+            style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             controller: _passwordController,
             decoration: InputDecoration(
                 contentPadding:

@@ -17,7 +17,7 @@ class MainNavigation extends StatefulWidget{
 
 class _MainNavigation extends State<MainNavigation>{
   int _currentIndex = 0;
-  final List<Widget> _children = [MainPage(), TableBasicsExample(), MyApp(), MyPage()];
+  final List<Widget> _children = [MainPage(), MainPage(), MyApp(), MyPage()];
   @override
   Widget build(BuildContext context){
     return Scaffold(
