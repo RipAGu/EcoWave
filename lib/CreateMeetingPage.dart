@@ -1,9 +1,16 @@
-import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
+
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:logger/logger.dart';
 import 'package:time_picker_sheet/widget/sheet.dart';
 import 'package:time_picker_sheet/widget/time_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:developer';
 
 class CreateMeetingPage extends StatefulWidget {
   @override
@@ -11,6 +18,9 @@ class CreateMeetingPage extends StatefulWidget {
 }
 
 class _CreateMeetingPage extends State<CreateMeetingPage> {
+  final ImagePicker picker = ImagePicker();
+  File? _image;
+  var userImage;
   String yearMonthDayTime = '';
   TextEditingController ymdtController = TextEditingController();
   var date = '선택';
@@ -63,12 +73,25 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
                         image: AssetImage('assets/icons/photo.png'),
                         width: MediaQuery.of(context).size.width * 0.096,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _getImage();
+                      },
                     ),
                   ),
                 ],
               ),
               titleField(),
+
+              Container(
+                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1, top: MediaQuery.of(context).size.height * 0.02),
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: 200,
+                child: _image == null ? Text("사진", textAlign: TextAlign.center,) : Image.file(File(_image!.path), fit: BoxFit.cover),
+              ),
+
+
+
+
               Container(
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.023,
@@ -294,7 +317,8 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
                       fontWeight: FontWeight.w500,
                       color: Color(0xff878787)),),
 
-          )),
+          )
+      ),
               Container(
 
                 margin: EdgeInsets.only(
@@ -423,6 +447,19 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
     );
   }
 
+  Future _getImage() async{
+    var picker = ImagePicker();
+    var image = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = File(image!.path);
+      if(_image == null){
+
+      }
+
+
+    });
+  }
+
   Widget titleField() {
     return Container(
       decoration: BoxDecoration(
@@ -524,7 +561,7 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
                 },
                 child: Text(
                   '네',
-                  style: TextStyle(color: Color(0xffC8CBD2)),
+                  style: TextStyle(color: Colors.black),
                 ),
               ),
               CupertinoDialogAction(
@@ -533,7 +570,7 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
                 },
                 child: Text(
                   '아니오',
-                  style: TextStyle(color: Color(0xffC8CBD2)),
+                  style: TextStyle(color: Colors.black),
                 ),
               )
             ],
@@ -562,7 +599,7 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
                 },
                 child: Text(
                   '네',
-                  style: TextStyle(color: Color(0xffC8CBD2)),
+                  style: TextStyle(color: Colors.black),
                 ),
               ),
             ],
@@ -571,15 +608,17 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
   }
 
   Future datePicker() async {
+    final year = DateTime.now().year;
     DateTime? dateTime = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
-        lastDate: DateTime(2023, 1, 1));
+        lastDate: DateTime(year + 2)
+    );
 
     if (dateTime != null)
       setState(() {
-        date = dateTime.toString();
+        date = dateTime.toString().split(' ')[0];
       });
     else {
       setState(() {
@@ -601,8 +640,10 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
 
     if (selectTime != null) {
       setState(() {
-        startTime = selectTime.toString();
-      });
+        final time = DateFormat("hh:mm").format(selectTime);
+        startTime = time;
+      }
+      );
     }
   }
 
@@ -620,8 +661,10 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
 
     if (selectTime != null) {
       setState(() {
-        endTime = selectTime.toString();
-      });
+        final time = DateFormat("hh:mm").format(selectTime);
+        endTime = time;
+      }
+      );
     }
   }
 
@@ -632,6 +675,7 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
       child: ElevatedButton(
         onPressed: () {
           createBtnEvent();
+
         },
         child: Text(
           "개설하기",

@@ -183,16 +183,36 @@ class _SearchSettingPage extends State<SearchSettingPage> {
                           fontWeight: FontWeight.w800,
                           fontFamily: 'Merri_Weather'),
                     ),
-                    mertoSelect(),
+                    Container(
+                        margin:
+                        EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.06,
+                            top: MediaQuery.of(context).size.height * 0.013),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Color(0xffD6D6D6)),
+                            borderRadius: BorderRadius.all(Radius.circular(6))),
+                        width: MediaQuery.of(context).size.width * 0.72,
+                        height: MediaQuery.of(context).size.height * 0.044,
+
+                        child: TextField(
+                          style: TextStyle(fontFamily: 'Source_Sans_Pro'),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding:
+                            EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+
+                            hintText: "검색 장소",
+                            hintStyle: TextStyle(
+                                fontFamily: 'Plus_Jakarta_Sans',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff878787)),),
+
+                        )
+                    ),
                   ],
                 )),
-            Container(
-              margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.023,
-                left: MediaQuery.of(context).size.width * 0.068,
-              ),
-              child: citySelect(),
-            ),
+
             Spacer(),
             participateBtn(context)
           ],
@@ -234,15 +254,16 @@ class _SearchSettingPage extends State<SearchSettingPage> {
   }
 
   Future datePicker(int check) async {
+    final year = DateTime.now().year;
     DateTime? dateTime = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
-        lastDate: DateTime(2023, 1, 1));
+        lastDate: DateTime(year + 2));
     if (check == 1) {
       if (dateTime != null)
         setState(() {
-          startDate = dateTime.toString();
+          startDate = dateTime.toString().split(' ')[0];
         });
       else {
         setState(() {
@@ -252,7 +273,7 @@ class _SearchSettingPage extends State<SearchSettingPage> {
     } else {
       if (dateTime != null)
         setState(() {
-          endDate = dateTime.toString();
+          endDate = dateTime.toString().split(' ')[0];
         });
       else {
         setState(() {

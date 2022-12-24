@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:eco_wave/RegisterPage2.dart';
+import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +13,18 @@ class RegisterPage1 extends StatefulWidget {
 }
 
 class _RegisterPage1 extends State<RegisterPage1> {
+  static final _emailController = TextEditingController();
+  static final _passwordController = TextEditingController();
+  late RestClient client;
+
+
+  @override
+  void initState(){
+    super.initState();
+    Dio dio = Dio();
+    client = RestClient(dio);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +73,7 @@ class _RegisterPage1 extends State<RegisterPage1> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: SizedBox(
           child: TextField(
+            controller: _emailController,
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
                 border: InputBorder.none,
@@ -77,6 +94,7 @@ class _RegisterPage1 extends State<RegisterPage1> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: SizedBox(
           child: TextField(
+            controller: _passwordController,
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
                 border: InputBorder.none,
@@ -98,7 +116,7 @@ class _RegisterPage1 extends State<RegisterPage1> {
           registerBtnEvent();
         },
         child: Text(
-          "가입하기",
+          "이메일 인증",
           style: TextStyle(fontFamily: 'Source_Sans_Pro', fontWeight: FontWeight.w700, fontSize: 20)
         ),
         style: ElevatedButton.styleFrom(
@@ -110,7 +128,68 @@ class _RegisterPage1 extends State<RegisterPage1> {
   }
 
   registerBtnEvent(){
-    Navigator.of(context).pushNamed('/registerPage2');
+    if(_emailController.text == ''){
+      yes('이메일을 입력해주세요');
+    }
+    else if(_passwordController.text == ''){
+      yes('비밀번호를 입력헤주세요');
+    }
+
+    else{
+      emailCertification();
+
+    }
+
 
   }
+
+  void emailCertification() async{
+    EmailRequest emailRequest = EmailRequest(email: _emailController.text);
+    var posResponse = await client.getEmailResponse(emailRequest);
+
+    if(posResponse.success.toString() == 'true'){
+      Navigator.of(context).pushNamed('/registerPage2', arguments: {
+        "email" : _emailController.text,
+        "password" : _passwordController.text,
+        "certificationNumber" : posResponse.data!.certification_number
+      });
+    }
+
+    else{
+      yes(posResponse.message!);
+    }
+
+
+
+
+  }
+
+  Future yes(String msg) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(msg,
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Plus_Jakarta_Sans',
+                  fontSize: 20),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+
+                },
+                child: Text(
+                  '네',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+
 }

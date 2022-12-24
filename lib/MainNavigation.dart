@@ -17,7 +17,7 @@ class MainNavigation extends StatefulWidget{
 
 class _MainNavigation extends State<MainNavigation>{
   int _currentIndex = 0;
-  final List<Widget> _children = [MainPage(), MainPage(), MyApp(), MyPage()];
+  final List<Widget> _children = [MainPage(), MainPage(), MyPage()];
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -37,7 +37,7 @@ class _MainNavigation extends State<MainNavigation>{
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 5,
             blurRadius: 7,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: Offset(0, 2), // changes position of shadow
           ),],
           items: [
             DotNavigationBarItem(
@@ -47,11 +47,6 @@ class _MainNavigation extends State<MainNavigation>{
 
             DotNavigationBarItem(
               icon: Icon(CustomIcons.frame_1),
-              selectedColor: Color(0xff30B2ED),
-            ),
-
-            DotNavigationBarItem(
-              icon: Icon(CustomIcons.message),
               selectedColor: Color(0xff30B2ED),
             ),
 

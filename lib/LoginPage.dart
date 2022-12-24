@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:eco_wave/ResigterPage1.dart';
+import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,11 +18,31 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late RestClient client;
   final formKey = GlobalKey<FormState>();
   static final _emailController = TextEditingController();
   static final _passwordController = TextEditingController();
+  LoginRequest loginRequest = LoginRequest(email: 'test', pw: 'test');
+
+  @override
+  void initState(){
+    super.initState();
+    Dio dio = Dio();
+    client = RestClient(dio);
+
+    log('test');
+
+    Future.microtask(() async{
+      final resp = await client.getLoginData(loginRequest);
+      log(resp.success.toString());
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: Container(
       width: double.infinity,
@@ -166,6 +190,21 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
+  
+  void loginTest() async{
+    LoginRequest loginRequest = LoginRequest(email: _emailController.text, pw: _passwordController.text);
+    var posResponse = await client.getLoginData(loginRequest);
+    log(posResponse.data!.token);
+    log(posResponse.data!.account_idx.toString());
+
+    if(posResponse.success == true){
+      Navigator.of(context).pushNamed('/mainNavigation');
+
+
+    }
+    log(posResponse.data!.account_idx.toString());
+
+  }
 
   Widget loginBtn(BuildContext context) {
     return SizedBox(
@@ -173,6 +212,9 @@ class _LoginPageState extends State<LoginPage> {
       height: MediaQuery.of(context).size.height * 0.055,
       child: ElevatedButton(
         onPressed: () {
+          if(_emailController.text == null){
+
+          }
           loginBtnEvent();
         },
         child: Text(
@@ -189,8 +231,43 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   loginBtnEvent(){
-      Navigator.of(context).pushNamed('/mainNavigation');
+    if(_emailController.text == ''){
+      yes('이메일을 입력해주세요');
+    }
+    else if(_passwordController.text == ''){
+      yes('비밀번호를 입력해주세요');
+    }
+    else {
+      loginTest();
 
+    }
+  }
+  
+  Future yes(String msg) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(msg,
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Plus_Jakarta_Sans',
+                  fontSize: 20),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+
+                },
+                child: Text(
+                  '네',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }
 
@@ -218,6 +295,8 @@ class LogoSection extends StatelessWidget {
 
     );
   }
+
+
 
 
 }

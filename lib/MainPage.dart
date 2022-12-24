@@ -51,99 +51,96 @@ class _MainPage extends State<MainPage> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.01),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: IconButton(
-                      icon: SvgPicture.asset(
-                        'assets/icons/add_icon.svg',
-                        width: MediaQuery.of(context).size.width * 0.12,
-                        height: MediaQuery.of(context).size.height * 0.12,
-                      ),
-                      onPressed: () {    Navigator.of(context).pushNamed('/createMeetingPage');},
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.01),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  child: IconButton(
+                    icon: SvgPicture.asset(
+                      'assets/icons/add_icon.svg',
+                      width: MediaQuery.of(context).size.width * 0.12,
+                      height: MediaQuery.of(context).size.height * 0.12,
                     ),
+                    onPressed: () {    Navigator.of(context).pushNamed('/createMeetingPage');},
                   ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.01),
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: SvgPicture.asset(
-                        'assets/icons/mini_logo.svg',
-                        semanticsLabel: "Flip",
-                        width: MediaQuery.of(context).size.width * 0.4,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: IconButton(
-                      icon: SvgPicture.asset(
-                        'assets/icons/avatar_1.svg',
-                        width: MediaQuery.of(context).size.width * 0.12,
-                        height: MediaQuery.of(context).size.height * 0.12,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.17,
-                child: PageView.builder(
-                  controller: controller,
-                  // itemCount: pages.length,
-                  itemBuilder: (_, index) {
-                    return pages[index % pages.length];
-                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 24),
-              ),
-              SmoothPageIndicator(
-                controller: controller,
-                count: pages.length,
-                effect: ExpandingDotsEffect(
-                    dotHeight: 10,
-                    dotWidth: 10,
-                    dotColor: Color(0xffB9D4DC),
-                    activeDotColor: Color(0xff00A1E9)
-                    // strokeWidth: 5,
-                    ),
-              ),
-              Container(
+                Container(
                   margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.023)),
-              searchField(),
-              Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: floggingPost(data[index][0], data[index][1],
-                            data[index][2], data[index][3], data[index][4]),
-                      );
-                    }),
+                      top: MediaQuery.of(context).size.height * 0.01),
+                  child: SvgPicture.asset(
+                    'assets/icons/mini_logo.svg',
+                    semanticsLabel: "Flip",
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  child: IconButton(
+                    icon: SvgPicture.asset(
+                      'assets/icons/avatar_1.svg',
+                      width: MediaQuery.of(context).size.width * 0.12,
+                      height: MediaQuery.of(context).size.height * 0.12,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.17,
+              child: PageView.builder(
+                controller: controller,
+                // itemCount: pages.length,
+                itemBuilder: (_, index) {
+                  return pages[index % pages.length];
+                },
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 24),
+            ),
+            SmoothPageIndicator(
+              controller: controller,
+              count: pages.length,
+              effect: ExpandingDotsEffect(
+                  dotHeight: 10,
+                  dotWidth: 10,
+                  dotColor: Color(0xffB9D4DC),
+                  activeDotColor: Color(0xff00A1E9)
+                  // strokeWidth: 5,
+                  ),
+            ),
+            Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.023)),
+            searchField(),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.43,
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      child: floggingPost(data[index][0], data[index][1],
+                          data[index][2], data[index][3], data[index][4]),
+                    );
+                  }),
+            ),
+          ],
         ),
       ),
 
@@ -196,7 +193,8 @@ class _MainPage extends State<MainPage> {
       String location) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('/meetingDetailPage');      },
+        Navigator.of(context).pushNamed('/meetingDetailPage');
+        },
       child: Container(
         padding: EdgeInsets.all(10),
         child: Row(

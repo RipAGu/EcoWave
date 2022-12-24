@@ -53,7 +53,7 @@ class _MyPage extends State<MyPage> {
                     child: IconButton(
                       icon: SvgPicture.asset(
                         'assets/icons/setting.svg',
-                        width: MediaQuery.of(context).size.width * 0.08,
+                        width: MediaQuery.of(context).size.width * 0.1,
                       ),
                       onPressed: ()
                       {settingBtnEvent();} ,
@@ -72,12 +72,12 @@ class _MyPage extends State<MyPage> {
                     margin: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.07),
                   ),
-                  SizedBox(
-                    child: SvgPicture.asset(
+
+                    SvgPicture.asset(
                       'assets/icons/avatar_1.svg',
                       width: MediaQuery.of(context).size.width * 0.144,
                     ),
-                  ),
+
                   Container(
                     margin: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.069),
@@ -136,6 +136,88 @@ class _MyPage extends State<MyPage> {
                       fontSize: 20),
                 ),
               ),
+
+
+
+              Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.016),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Image(
+                  image: AssetImage('assets/icons/mypage_line.png'),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.007),
+              ),
+              Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.084),
+                    child: Text(
+                      '내 주최',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Merri_Weather'),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.05),
+                  ),
+                  Text(
+                    '3',
+                    style: TextStyle(
+                        fontFamily: 'Source_Sans_Pro',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 32,
+                        color: Color(0xff30B2ED)),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.55),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Color(0xffEDEDED)),
+                        borderRadius: BorderRadius.circular(5)),
+                    width: MediaQuery.of(context).size.width * 0.077,
+                    height: MediaQuery.of(context).size.width * 0.077,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(Icons.arrow_forward_ios),
+                      onPressed: () {},
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              ListView.builder(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      child: floggingPost(data[index][0], data[index][1],
+                          data[index][2], data[index][3], data[index][4]),
+                    );
+                  }),
+
+
+
+
+
+
+
+
+
               Container(
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.016),
@@ -195,6 +277,7 @@ class _MyPage extends State<MyPage> {
                 ],
               ),
               ListView.builder(
+                padding: EdgeInsets.zero,
                   scrollDirection: Axis.vertical,
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -266,6 +349,7 @@ class _MyPage extends State<MyPage> {
                 ],
               ),
               ListView.builder(
+                padding: EdgeInsets.zero,
                   scrollDirection: Axis.vertical,
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,

@@ -252,8 +252,8 @@ class MeetingDetailPage extends StatelessWidget{
             yes(context);
 
           },
-            child: Text('네', style: TextStyle(color: Color(0xffC8CBD2)),),),
-          CupertinoDialogAction(onPressed: (){Navigator.pop(context);}, child: Text('아니오',style: TextStyle(color: Color(0xffC8CBD2)),),)
+            child: Text('네', style: TextStyle(color: Colors.black),),),
+          CupertinoDialogAction(onPressed: (){Navigator.pop(context);}, child: Text('아니오',style: TextStyle(color: Colors.black),),)
 
         ],
       );
@@ -269,7 +269,7 @@ class MeetingDetailPage extends StatelessWidget{
             Navigator.pop(context);
 
           },
-            child: Text('네', style: TextStyle(color: Color(0xffC8CBD2)),),),
+            child: Text('네', style: TextStyle(color: Colors.black),),),
 
         ],
       );

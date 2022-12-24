@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:eco_wave/RegisterPage3.dart';
+import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +13,35 @@ class RegisterPage2 extends StatefulWidget{
 }
 
 class _RegisterPage2 extends State<RegisterPage2>{
+  String? email;
+  String? password;
+  String? certificationNumber;
+  static final _userCertificationNumber = TextEditingController();
+  late RestClient client;
+
+
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+
+    final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
+    if(arguments != null){
+      email = arguments["email"] as String;
+      password = arguments["password"] as String;
+      certificationNumber = arguments["certificationNumber"] as String;
+    }
+
+    log(email.toString() + password.toString() + certificationNumber.toString());
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    Dio dio = Dio();
+    client = RestClient(dio);
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -69,6 +102,7 @@ class _RegisterPage2 extends State<RegisterPage2>{
         margin: EdgeInsets.only(left: 30, right: 30, top: 30),
         child: SizedBox(
           child: TextField(
+            controller: _userCertificationNumber,
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
               isDense: true,
@@ -91,7 +125,7 @@ class _RegisterPage2 extends State<RegisterPage2>{
           certificationBtnEvent();
         },
         child: Text(
-          "인증하기",
+          "인증 및 가입",
           style: TextStyle(
              fontFamily: 'Source_Sans_Pro', fontSize: 20, fontWeight: FontWeight.w700),
         ),
@@ -104,8 +138,53 @@ class _RegisterPage2 extends State<RegisterPage2>{
   }
 
   certificationBtnEvent(){
-    Navigator.of(context).pushNamed('/registerPage3');
+    log(certificationNumber.toString() + "  " + _userCertificationNumber.text);
+    if(certificationNumber == _userCertificationNumber.text){
+      certification();
+
+    }
 
 
+
+  }
+
+  void certification() async{
+    RegisterRequest registerRequest  = RegisterRequest(email: email, pw: password);
+    var posResponse = await client.getRegisterResponse(registerRequest);
+    log(posResponse.success.toString());
+    if(posResponse.success == true){
+      Navigator.of(context).pushNamed('/registerPage3');
+
+    }
+    else{
+      yes(posResponse.message.toString());
+    }
+  }
+
+  Future yes(String msg) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(msg,
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Plus_Jakarta_Sans',
+                  fontSize: 20),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+
+                },
+                child: Text(
+                  '네',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }
