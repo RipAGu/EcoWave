@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:eco_wave/ProfileSettingPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage3 extends StatefulWidget{
   @override
@@ -9,6 +12,18 @@ class RegisterPage3 extends StatefulWidget{
 }
 
 class _RegisterPage3 extends State<RegisterPage3>{
+  String? token;
+  @override
+  void initState() {
+    super.initState();
+    loadToken();
+  }
+
+  loadToken() async{
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    token = pref.getString("token");
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(

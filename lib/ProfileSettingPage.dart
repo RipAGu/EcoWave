@@ -1,6 +1,14 @@
+
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileSettingPage extends StatefulWidget {
   @override
@@ -8,6 +16,25 @@ class ProfileSettingPage extends StatefulWidget {
 }
 
 class _ProfileSettingPage extends State<ProfileSettingPage> {
+  static final _nameController = TextEditingController();
+  static final _introduceController = TextEditingController();
+  File? _image;
+  late RestClient client;
+  String? token;
+
+  @override
+  void initState(){
+    super.initState();
+    loadToken();
+    Dio dio = Dio();
+    client = RestClient(dio);
+  }
+
+
+  loadToken() async{
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    token = pref.getString("token");
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +58,7 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
                     Container(
                       margin: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.043),
-                      child: SizedBox(
-                        child: SvgPicture.asset(
-                          'assets/icons/avatar_1.svg',
-                          width: MediaQuery.of(context).size.width * 0.144,
-                        ),
-                      )
+                      child: imageProfile(),
 
                     ),
                     Container(
@@ -96,7 +118,7 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
                         introduceField(),
                       ],
                     ),
-                    Container(margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.50),),
+                    Container(margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.35),),
                     settingBtn(context)
 
                   ],
@@ -106,7 +128,18 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
             )));
   }
 
-  pictureSetting() {}
+  pictureSetting() {
+    _getImage();
+    log(_image.toString());
+  }
+
+  Future _getImage() async{
+    var picker = ImagePicker();
+    var image = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = File(image!.path);
+    });
+  }
 
   Widget nameField() {
     return Container(
@@ -118,6 +151,7 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.72,
           child: TextField(
+            controller: _nameController,
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
                 isDense: true,
@@ -140,6 +174,7 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.72,
           child: TextField(
+            controller: _introduceController,
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
                 isDense: true,
@@ -175,8 +210,38 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
     );
   }
 
+  Widget imageProfile(){
+    return Center(
+      child: Stack(
+        children: <Widget>[
+          CircleAvatar(
+            radius: 80,
+            backgroundImage: _image == null
+              ? AssetImage('assets/icons/location_icon.png')
+                : Image.file(_image!).image
+          )
+        ],
+      ),
+    );
+  }
+
   settingBtnEvent() {
-    Navigator.of(context).pushNamedAndRemoveUntil('/mainNavigation', ModalRoute.withName('/'));
+    settingProfile();
+    log('click');
+    // Navigator.of(context).pushNamedAndRemoveUntil('/mainNavigation', ModalRoute.withName('/'));
 
   }
+  
+  void settingProfile() async{
+    log(_image.toString());
+    log(_image!.path.toString());
+
+    dynamic sendData = _image!.path;
+    var formData = FormData.fromMap({'image' : await MultipartFile.fromFile(sendData, filename: "image")});
+    var posResponse = await client.getProfileResponse(token!, _image!, true, _nameController.text, _introduceController.text);
+
+
+  }
+
+
 }

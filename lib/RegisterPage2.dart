@@ -6,6 +6,7 @@ import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage2 extends StatefulWidget{
   @override
@@ -16,6 +17,7 @@ class _RegisterPage2 extends State<RegisterPage2>{
   String? email;
   String? password;
   String? certificationNumber;
+  String? token;
   static final _userCertificationNumber = TextEditingController();
   late RestClient client;
 
@@ -148,11 +150,15 @@ class _RegisterPage2 extends State<RegisterPage2>{
 
   }
 
+
   void certification() async{
     RegisterRequest registerRequest  = RegisterRequest(email: email, pw: password);
     var posResponse = await client.getRegisterResponse(registerRequest);
     log(posResponse.success.toString());
     if(posResponse.success == true){
+      log(posResponse.token.toString() + "  토큰");
+      final SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.setString("token", posResponse.token.toString());
       Navigator.of(context).pushNamed('/registerPage3');
 
     }

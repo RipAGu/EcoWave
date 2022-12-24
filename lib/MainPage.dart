@@ -1,35 +1,75 @@
+
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:eco_wave/LoginPage.dart';
 import 'package:eco_wave/ProfileSettingPage.dart';
 import 'package:eco_wave/RegisterPage2.dart';
 import 'package:eco_wave/ResigterPage1.dart';
+import 'package:eco_wave/RestClient.dart';
 import 'package:eco_wave/common/my_flutter_app_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class MainPage extends StatefulWidget {
+  String token = "";
+  MainPage( String token){
+    this.token = token;
+  }
   @override
-  _MainPage createState() => _MainPage();
+  _MainPage createState() => _MainPage(token);
 }
 
 class _MainPage extends State<MainPage> {
+  late RestClient client;
+  String? token;
+  List<String> banner = [];
 
-  var data = [
-    ['여의도에서 산책하며 플로깅해요', '플로깅', '3월 5일 일요일 14:00~16:00', '1/4', '여의도 한강공원'],
-    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
-    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
-    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
-    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
-    ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산']
-  ];
+  _MainPage(String token){
+    this.token = token;
+    log(token);
+  }
+
+
+  var meetingData = [];
   static final _searchController = TextEditingController();
   final controller = PageController(viewportFraction: 0.8, keepPage: true);
+
+  @override
+  void initState(){
+    super.initState();
+    loadToken();
+
+    Dio dio = Dio();
+    client = RestClient(dio);
+
+  }
+
+
+  Future<void> loadToken() async{
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    token = pref.getString("token");
+
+    // bannerTest();
+
+  }
+
+  void bannerTest() async{
+    var bannerResponse = await client.getBannerResponse(token!);
+    log(bannerResponse.data.result!.length.toString());
+
+    log(banner[0]);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final pages = List.generate(
-        6,
+        3,
         (index) => Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
@@ -40,7 +80,7 @@ class _MainPage extends State<MainPage> {
                 height: 280,
                 child: Center(
                     child: Text(
-                  "Page $index",
+                  "test",
                   style: TextStyle(color: Colors.indigo),
                 )),
               ),
@@ -98,13 +138,49 @@ class _MainPage extends State<MainPage> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.17,
-              child: PageView.builder(
-                controller: controller,
-                // itemCount: pages.length,
-                itemBuilder: (_, index) {
-                  return pages[index % pages.length];
+              child: FutureBuilder(
+                future: client.getBannerResponse(token!),
+                builder: (BuildContext context, AsyncSnapshot snapshot){
+                  if(snapshot.hasData == false){
+                    return Text('test');
+                  }
+                  else{
+
+                    final test = snapshot.data;
+                    log(test.data.result.length.toString());
+
+                    for(int i = 0; i < test.data.result!.length; i++){
+                      banner.add(test.data.result![i].image!);
+                    }
+
+                    final pages = List.generate(
+                        test.data.result.length,
+                            (index) => Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: Colors.grey.shade300,
+                          ),
+                          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          child: Container(
+                            height: 280,
+                                child: Image.network('http://15.165.175.81:3000/' + banner[index], fit: BoxFit.cover,)
+
+
+                          ),
+                        ));
+
+
+                    return PageView.builder(
+                      controller: controller,
+                      itemBuilder: (_, index) {
+                        return pages[index % pages.length];
+                      },
+                    );
+                  }
                 },
               ),
+
+
             ),
             Padding(
               padding: const EdgeInsets.only(top: 24),
@@ -120,25 +196,61 @@ class _MainPage extends State<MainPage> {
                   // strokeWidth: 5,
                   ),
             ),
+
             Container(
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.023)),
             searchField(),
+
+
             Container(
               margin: EdgeInsets.only(top: 10),
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.43,
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      child: floggingPost(data[index][0], data[index][1],
-                          data[index][2], data[index][3], data[index][4]),
-                    );
-                  }),
+              child: FutureBuilder(
+                future: client.getMeetingListResponse(token!),
+                builder: (BuildContext context, AsyncSnapshot snapshot2){
+                  if(snapshot2.hasData == false){
+                    return Text('null');
+                  }
+                  else{
+                    final meetingList = snapshot2.data;
+                    log(meetingList.data.result![0].image[0].toString());
+
+                    log(meetingList.data.result![0].type.toString());
+
+                    for(int i = 0; i < meetingList.data.result!.length; i++){
+                      var tmpList = [];
+                      if (meetingList.data.result![i].image.length > 0) {
+                        tmpList.add(meetingList.data.result![i].image[0]);
+                      } else {
+                        tmpList.add("");
+                      }
+                      tmpList.add(meetingList.data.result![i].title);
+                      tmpList.add(meetingList.data.result![i].type);
+                      tmpList.add(meetingList.data.result![i].date);
+                      tmpList.add(meetingList.data.result![i].status);
+                      tmpList.add(meetingList.data.result![i].place);
+                      meetingData.add(tmpList);
+                    }
+
+
+                    return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: meetingList.data.result!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            child: floggingPost(meetingData[index][0],
+                                meetingData[index][1], meetingData[index][2], meetingData[index][3],
+                                meetingData[index][4], meetingData[index][5]),
+
+                          );
+                        });
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -189,7 +301,7 @@ class _MainPage extends State<MainPage> {
     );
   }
 
-  Widget floggingPost(String title, String option, String date, String capacity,
+  Widget floggingPost(String image, String title, String option, String date, String capacity,
       String location) {
     return GestureDetector(
       onTap: () {
@@ -199,10 +311,9 @@ class _MainPage extends State<MainPage> {
         padding: EdgeInsets.all(10),
         child: Row(
           children: <Widget>[
-            Image(
-              image: AssetImage('assets/icons/sample_image.png'),
-              width: MediaQuery.of(context).size.width * 0.2,
-            ),
+            Image.network('http://15.165.175.81:3000/' + image, fit: BoxFit.cover,
+            width: MediaQuery.of(context).size.width * 0.2,),
+
             Container(
               margin: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.038),

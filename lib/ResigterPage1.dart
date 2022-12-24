@@ -146,6 +146,7 @@ class _RegisterPage1 extends State<RegisterPage1> {
   void emailCertification() async{
     EmailRequest emailRequest = EmailRequest(email: _emailController.text);
     var posResponse = await client.getEmailResponse(emailRequest);
+    log(posResponse.data!.certification_number.toString());
 
     if(posResponse.success.toString() == 'true'){
       Navigator.of(context).pushNamed('/registerPage2', arguments: {

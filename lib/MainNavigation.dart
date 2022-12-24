@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:eco_wave/MainPage.dart';
 import 'package:eco_wave/MyPage.dart';
@@ -17,7 +19,21 @@ class MainNavigation extends StatefulWidget{
 
 class _MainNavigation extends State<MainNavigation>{
   int _currentIndex = 0;
-  final List<Widget> _children = [MainPage(), MainPage(), MyPage()];
+  String token = "";
+  List<Widget> _children = [];
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
+    if(arguments != null){
+      token = arguments["token"] as String;
+      log("navigation    " + token);
+      this.token = token;
+      _children = [MainPage(token), MainPage(token), MyPage()];
+    }
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(

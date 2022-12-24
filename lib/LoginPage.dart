@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 var logger = Logger(
   printer: PrettyPrinter(),
@@ -194,15 +195,14 @@ class _LoginPageState extends State<LoginPage> {
   void loginTest() async{
     LoginRequest loginRequest = LoginRequest(email: _emailController.text, pw: _passwordController.text);
     var posResponse = await client.getLoginData(loginRequest);
-    log(posResponse.data!.token);
-    log(posResponse.data!.account_idx.toString());
 
     if(posResponse.success == true){
-      Navigator.of(context).pushNamed('/mainNavigation');
+      final SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.setString("token", posResponse.data!.token);
+      Navigator.of(context).pushNamed('/mainNavigation', arguments: {"token" : posResponse.data!.token});
 
 
     }
-    log(posResponse.data!.account_idx.toString());
 
   }
 
