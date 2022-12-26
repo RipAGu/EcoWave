@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:eco_wave/CreateMeetingPage.dart';
 import 'package:eco_wave/LoginPage.dart';
 import 'package:eco_wave/MeetingDetailPage.dart';
 import 'package:eco_wave/ProfileSettingPage.dart';
@@ -34,6 +35,7 @@ class _MainPage extends State<MainPage> {
     this.token = token;
     log(token);
   }
+
 
 
   var meetingData = [];
@@ -105,7 +107,13 @@ class _MainPage extends State<MainPage> {
                       width: MediaQuery.of(context).size.width * 0.12,
                       height: MediaQuery.of(context).size.height * 0.12,
                     ),
-                    onPressed: () {    Navigator.of(context).pushNamed('/createMeetingPage');},
+                    onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMeetingPage())).then((value) => {
+                      setState((){})
+                    });
+
+
+                    },
                   ),
                 ),
                 Container(
@@ -301,7 +309,10 @@ class _MainPage extends State<MainPage> {
       String location, int eventIdx) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingDetailPage(token!, eventIdx)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingDetailPage(token!, eventIdx))).then((value) => {
+          setState((){})
+        });
+
         log("test");
         },
       child: Container(

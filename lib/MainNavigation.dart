@@ -13,29 +13,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MainNavigation extends StatefulWidget{
+  String? token;
+  MainNavigation(String token){
+    this.token = token;
+  }
   @override
-  _MainNavigation createState() => _MainNavigation();
+  _MainNavigation createState() => _MainNavigation(token!);
 }
 
 class _MainNavigation extends State<MainNavigation>{
   int _currentIndex = 0;
-  String token = "";
-  List<Widget> _children = [];
-
-  @override
-  void didChangeDependencies(){
-    super.didChangeDependencies();
-    final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
-    if(arguments != null){
-      token = arguments["token"] as String;
-      log("navigation    " + token);
-      this.token = token;
-      _children = [MainPage(token), MainPage(token), MyPage()];
-    }
+  String? token;
+  _MainNavigation(String token){
+    this.token = token;
   }
+
 
   @override
   Widget build(BuildContext context){
+    var _children = [MainPage(token!), MainPage(token!), MyPage()];
+
     return Scaffold(
       body: IndexedStack(
         children: <Widget>[_children[_currentIndex],],

@@ -104,6 +104,16 @@ class _MeetingDetailPage extends State<MeetingDetailPage> {
                             return Text("null");
                           } else {
                             final detailData = snapshot.data;
+                            List? partiImageList = [];
+                            for(int i = 0; i < detailData.data.register.length; i++){
+                              if(detailData.data.register[i].image != null) {
+                                partiImageList.add(
+                                    detailData.data.register[i].image);
+                              }
+                              else{
+                                partiImageList.add("no");
+                              }
+                            }
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -341,17 +351,40 @@ class _MeetingDetailPage extends State<MeetingDetailPage> {
                                           .size
                                           .height *
                                           0.022),
-                                ),
-                                SizedBox(
-                                  child: SvgPicture.asset(
-                                    'assets/icons/avatar_1.svg',
-                                    width:
-                                    MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.1,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+
+                                    itemCount: partiImageList.length,
+                                    itemBuilder: (BuildContext context, int index){
+                                      if(partiImageList[index] == "no"){
+                                        return Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: ClipOval(
+                                            child: Image.asset('assets/icons/avatar_2.png', width: 50, height: 50, fit: BoxFit.cover,),
+                                          ),
+                                        );
+                                      }
+                                      else {
+                                        return Container(
+                                          margin: EdgeInsets.only(right: 10),
+
+                                          child: ClipOval(
+                                            child: Image.network(
+                                              'http://15.165.175.81:3000/' +
+                                                  partiImageList[index],
+                                              fit: BoxFit.cover,
+                                              width: 50, height: 50,),
+                                          ),
+                                        );
+                                      }
+                                    },
                                   ),
+                                  width: double.infinity,
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
                                 ),
+
                                 Container(
                                   margin: EdgeInsets.only(top: 100),
                                 )

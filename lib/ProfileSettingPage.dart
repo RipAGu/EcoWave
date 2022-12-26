@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:eco_wave/MainNavigation.dart';
 import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -232,7 +233,6 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
     else{
       settingProfile();
     }
-    log('click');
     // Navigator.of(context).pushNamedAndRemoveUntil('/mainNavigation', ModalRoute.withName('/'));
 
   }
@@ -241,6 +241,10 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
     var posResponse = await client.getProfileResponse(token!, _image!, true, _nameController.text, _introduceController.text);
     if(posResponse.success == false){
       yes(posResponse.message!);
+    }
+    else{
+      yes("가입이 완료되었습니다");
+
     }
   }
 
@@ -260,6 +264,9 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MainNavigation(token!)));
+
+
 
                 },
                 child: Text(

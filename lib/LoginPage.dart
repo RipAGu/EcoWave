@@ -9,6 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'MainNavigation.dart';
+
 var logger = Logger(
   printer: PrettyPrinter(),
 );
@@ -199,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
     if(posResponse.success == true){
       final SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString("token", posResponse.data!.token);
-      Navigator.of(context).pushNamed('/mainNavigation', arguments: {"token" : posResponse.data!.token});
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MainNavigation(posResponse.data!.token)));
 
 
     }
