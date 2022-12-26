@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -27,6 +28,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
+  String testText = "abc";
+
   late RestClient client;
   String? token;
   List<String> banner = [];
@@ -38,7 +41,6 @@ class _MainPage extends State<MainPage> {
 
 
 
-  var meetingData = [];
   static final _searchController = TextEditingController();
   final controller = PageController(viewportFraction: 0.8, keepPage: true);
 
@@ -109,7 +111,9 @@ class _MainPage extends State<MainPage> {
                     ),
                     onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMeetingPage())).then((value) => {
-                      setState((){})
+                      setState((){
+                        testText = "ggg";
+                      })
                     });
 
 
@@ -134,7 +138,12 @@ class _MainPage extends State<MainPage> {
                       width: MediaQuery.of(context).size.width * 0.12,
                       height: MediaQuery.of(context).size.height * 0.12,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        testText = 'cdf';
+
+                      });
+                    },
                   ),
                 ),
               ],
@@ -217,6 +226,8 @@ class _MainPage extends State<MainPage> {
                     return Text('null');
                   }
                   else{
+                    var meetingData = [];
+
                     final meetingList = snapshot2.data;
                     log(meetingList.data.result![0].image[0].toString());
 
@@ -237,6 +248,8 @@ class _MainPage extends State<MainPage> {
                       tmpList.add(meetingList.data.result![i].event_idx);
                       meetingData.add(tmpList);
                     }
+                    log(meetingData[0][4]);
+                    log(meetingList.data.result![0].status);
 
 
                     return ListView.builder(
@@ -244,14 +257,9 @@ class _MainPage extends State<MainPage> {
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: meetingList.data.result!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            child: floggingPost(meetingData[index][0],
-                                meetingData[index][1], meetingData[index][2], meetingData[index][3],
-                                meetingData[index][4], meetingData[index][5], meetingData[index][6]),
-
-                          );
-                        });
+                        itemBuilder: (BuildContext context, int index) => floggingPost(meetingData[index][0],
+                            meetingData[index][1], meetingData[index][2], meetingData[index][3],
+                            meetingData[index][4], meetingData[index][5], meetingData[index][6]));
                   }
                 },
               ),
@@ -304,16 +312,18 @@ class _MainPage extends State<MainPage> {
       style: TextStyle(fontSize: 20),
     );
   }
+  FutureOr lltest(dynamic value){
+    setState(() {
+
+    });
+  }
 
   Widget floggingPost(String image, String title, String option, String date, String capacity,
       String location, int eventIdx) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingDetailPage(token!, eventIdx))).then((value) => {
-          setState((){})
-        });
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingDetailPage(token!, eventIdx))).then(lltest);
 
-        log("test");
         },
       child: Container(
         padding: EdgeInsets.all(10),
