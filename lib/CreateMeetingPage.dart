@@ -1,11 +1,13 @@
 
 import 'dart:io';
-import 'dart:math';
 
+import 'package:dio/dio.dart';
+import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:time_picker_sheet/widget/sheet.dart';
 import 'package:time_picker_sheet/widget/time_picker.dart';
 import 'package:intl/intl.dart';
@@ -18,16 +20,34 @@ class CreateMeetingPage extends StatefulWidget {
 }
 
 class _CreateMeetingPage extends State<CreateMeetingPage> {
+  static final _titleController = TextEditingController();
+  static final _placeController = TextEditingController();
+  static final _introduceController = TextEditingController();
+  static final _addressController = TextEditingController();
+  late RestClient client;
+  String? token;
   final ImagePicker picker = ImagePicker();
   File? _image;
   var userImage;
-  String yearMonthDayTime = '';
-  TextEditingController ymdtController = TextEditingController();
   var date = '선택';
   var startTime = '선택';
   var endTime = '선택';
   var number = 1;
   final List<bool> _selectedOption = <bool>[false, false, false];
+  String? optionString;
+
+  @override
+  void initState(){
+   super.initState();
+   loadToken();
+   Dio dio = Dio();
+   client = RestClient(dio);
+  }
+
+  loadToken() async{
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    token = pref.getString("token");
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -246,79 +266,69 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
                           fontWeight: FontWeight.w800,
                           fontFamily: 'Merri_Weather'),
                     ),
+
                     Container(
-                      margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.055),
-                      width: MediaQuery.of(context).size.width * 0.28,
-                      height: MediaQuery.of(context).size.height * 0.044,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "주소찾기",
-                          style: TextStyle(
-                              fontFamily: 'Source_Sans_Pro',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff7FCFF3),
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(8.0))),
-                      ),
+                        margin:
+                        EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.06,
+                            top: MediaQuery.of(context).size.height * 0.011),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Color(0xffD6D6D6)),
+                            borderRadius: BorderRadius.all(Radius.circular(6))),
+                        width: MediaQuery.of(context).size.width * 0.72,
+                        height: MediaQuery.of(context).size.height * 0.044,
+
+                        child: TextField(
+                          controller: _addressController,
+                          style: TextStyle(fontFamily: 'Source_Sans_Pro'),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding:
+                            EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+
+                            hintText: "장소",
+                            hintStyle: TextStyle(
+                                fontFamily: 'Plus_Jakarta_Sans',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff878787)),),
+
+                        )
                     ),
+
                   ],
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.22,
-                    top: MediaQuery.of(context).size.height * 0.013),
-                padding: EdgeInsets.only(left: 10),
-                width: MediaQuery.of(context).size.width * 0.72,
-                height: MediaQuery.of(context).size.height * 0.044,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Color(0xffD6D6D6)),
-                    borderRadius: BorderRadius.all(Radius.circular(6))),
-                child: Align(
-                  child: Text(
-                    '주소',
-                    style: TextStyle(
-                        fontFamily: 'Plus_Jakarta_Sans',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff878787)),
-                    textAlign: TextAlign.start,
-                  ),
-                  alignment: Alignment.centerLeft,
-                ),
+                  margin:
+                  EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.217,
+                      top: MediaQuery.of(context).size.height * 0.011),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Color(0xffD6D6D6)),
+                      borderRadius: BorderRadius.all(Radius.circular(6))),
+                  width: MediaQuery.of(context).size.width * 0.72,
+                  height: MediaQuery.of(context).size.height * 0.044,
+
+                  child: TextField(
+                    controller: _placeController,
+                    style: TextStyle(fontFamily: 'Source_Sans_Pro'),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding:
+                      EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+
+                      hintText: "주소",
+                      hintStyle: TextStyle(
+                          fontFamily: 'Plus_Jakarta_Sans',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff878787)),),
+
+                  )
               ),
-      Container(
-          margin:
-          EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.22,
-              top: MediaQuery.of(context).size.height * 0.013),
-          decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Color(0xffD6D6D6)),
-              borderRadius: BorderRadius.all(Radius.circular(6))),
-          width: MediaQuery.of(context).size.width * 0.72,
-          height: MediaQuery.of(context).size.height * 0.044,
 
-            child: TextField(
-              style: TextStyle(fontFamily: 'Source_Sans_Pro'),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                  isDense: true,
-                  contentPadding:
-                  EdgeInsets.symmetric(vertical: 6, horizontal: 10),
 
-                  hintText: "장소 약칭",
-                  hintStyle: TextStyle(
-                      fontFamily: 'Plus_Jakarta_Sans',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff878787)),),
-
-          )
-      ),
               Container(
 
                 margin: EdgeInsets.only(
@@ -407,6 +417,7 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
                     border: Border.all(width: 1, color: Color(0xffD6D6D6)),
                     borderRadius: BorderRadius.all(Radius.circular(6))),
                   child: TextField(
+                    controller: _introduceController,
                     keyboardType: TextInputType.multiline,
                     maxLines: 10,
                     style: TextStyle(fontFamily: 'Source_Sans_Pro'),
@@ -471,6 +482,7 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
         ),
 
           child: TextField(
+            controller: _titleController,
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
                 contentPadding:
@@ -557,7 +569,7 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
               CupertinoDialogAction(
                 onPressed: () {
                   Navigator.pop(context);
-                  yes();
+                  createMeeting();
                 },
                 child: Text(
                   '네',
@@ -578,13 +590,12 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
         });
   }
 
-  Future yes() {
+  Future yes(String msg) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
-            title: Text(
-              '모임이 개설되었습니다',
+            title: Text(msg,
               style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Plus_Jakarta_Sans',
@@ -693,6 +704,37 @@ class _CreateMeetingPage extends State<CreateMeetingPage> {
   }
 
   createBtnEvent(){
-    yesNo();
+    if(_titleController.text == ""){  yes('제목을 입력해주세요'); log(_titleController.text);}
+    else if(_image == null) yes('사진을 넣어주세요');
+    else if(_selectedOption[0] == false && _selectedOption[1] == false && _selectedOption[2] == false) yes("종류를 선택해주세요");
+    else if(date == '선택') yes('일정을 선택해주세요');
+    else if(startTime == '선택') yes('시간을 선택해주세요');
+    else if(endTime == '선택') yes('시간을 선택해주세요');
+    else if(_placeController == "") yes('장소를 입력해주세요');
+    else if(_introduceController.text == "") yes("소개를 입력해주세요");
+    else{
+      if(_selectedOption[0] == true) optionString = "플로깅";
+      else if(_selectedOption[1] == true) optionString = "클린산행";
+      else if(_selectedOption[2] == true) optionString = "비치코밍";
+      yesNo();
+
+    }
+
+  }
+  void createMeeting() async{
+    var posResponse = await client.getCreateMeetingResponse(
+        token!, _image!, _titleController.text,
+        optionString!, date, startTime, endTime, _addressController.text,
+        _placeController.text, number, _introduceController.text);
+
+    if(posResponse.success == true){
+      yes("모임이 개설되었습니다.");
+    }
+    else{
+      yes(posResponse.message!);
+    }
+
+
+    log(posResponse.success.toString());
   }
 }

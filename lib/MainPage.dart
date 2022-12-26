@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:eco_wave/LoginPage.dart';
+import 'package:eco_wave/MeetingDetailPage.dart';
 import 'package:eco_wave/ProfileSettingPage.dart';
 import 'package:eco_wave/RegisterPage2.dart';
 import 'package:eco_wave/ResigterPage1.dart';
@@ -17,7 +18,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class MainPage extends StatefulWidget {
   String token = "";
-  MainPage( String token){
+  MainPage(String token){
     this.token = token;
   }
   @override
@@ -58,13 +59,7 @@ class _MainPage extends State<MainPage> {
 
   }
 
-  void bannerTest() async{
-    var bannerResponse = await client.getBannerResponse(token!);
-    log(bannerResponse.data.result!.length.toString());
 
-    log(banner[0]);
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -231,6 +226,7 @@ class _MainPage extends State<MainPage> {
                       tmpList.add(meetingList.data.result![i].date);
                       tmpList.add(meetingList.data.result![i].status);
                       tmpList.add(meetingList.data.result![i].place);
+                      tmpList.add(meetingList.data.result![i].event_idx);
                       meetingData.add(tmpList);
                     }
 
@@ -244,7 +240,7 @@ class _MainPage extends State<MainPage> {
                           return Container(
                             child: floggingPost(meetingData[index][0],
                                 meetingData[index][1], meetingData[index][2], meetingData[index][3],
-                                meetingData[index][4], meetingData[index][5]),
+                                meetingData[index][4], meetingData[index][5], meetingData[index][6]),
 
                           );
                         });
@@ -302,10 +298,11 @@ class _MainPage extends State<MainPage> {
   }
 
   Widget floggingPost(String image, String title, String option, String date, String capacity,
-      String location) {
+      String location, int eventIdx) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('/meetingDetailPage');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingDetailPage(token!, eventIdx)));
+        log("test");
         },
       child: Container(
         padding: EdgeInsets.all(10),

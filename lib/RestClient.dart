@@ -46,9 +46,40 @@ abstract class RestClient{
   Future<MeetingListResponse> getMeetingListResponse(
       @Header("token") String token
       );
+  @POST("/event")
+  @MultiPart()
+  Future<CreateMeetingResponse> getCreateMeetingResponse(
+      @Header("token") String token,
+      @Part() File image,
+      @Part() String title,
+      @Part() String type,
+      @Part() String date,
+      @Part() String start_time,
+      @Part() String end_time,
+      @Part() String address,
+      @Part() String place,
+      @Part() int register_number,
+      @Part() String introduce,
+      );
 
-
+  @GET("/event")
+  Future<MeetingDetailResponse> getMeetingDetailResponse(
+      @Header("token") String token,
+      @Query("event_idx") int event_idx,
+      );
+  @POST("/event/register")
+  Future<MeetingParticipateResponse> getMeetingParticipateResponse(
+      @Header("token") String token,
+      @Body() MeetingParticipateRequest meetingParticipateRequest
+      );
+  @DELETE("/event/register")
+  Future<MeetingCancelResponse> getMeetingCancelResponse(
+      @Header("token") String token,
+      @Body() MeetingCancelRequest meetingCancelRequest
+      );
 }
+
+
 
 
 //----------------------로그인 api
@@ -288,4 +319,124 @@ class MeetingListResponseData{
 
   factory MeetingListResponseData.fromJson(Map<String, dynamic> json) => _$MeetingListResponseDataFromJson(json);
   Map<String, dynamic> toJson() => _$MeetingListResponseDataToJson(this);
+}
+
+//---------------------모임개설 api
+
+
+@JsonSerializable()
+class CreateMeetingResponse{
+  bool? success;
+  String? message;
+  CreateMeetingResponse({
+    required this.success,
+    required this.message
+});
+  factory CreateMeetingResponse.fromJson(Map<String, dynamic> json) => _$CreateMeetingResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$CreateMeetingResponseToJson(this);
+}
+
+//------------------모임 상세보기api
+@JsonSerializable()
+class MeetingDetailResponse{
+  bool? success;
+  String? message;
+  MeetingDetailData? data;
+
+  MeetingDetailResponse({
+    required this.success,
+    required this.message,
+    required this.data,
+
+
+});
+  factory MeetingDetailResponse.fromJson(Map<String, dynamic> json) => _$MeetingDetailResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$MeetingDetailResponseToJson(this);
+}
+
+@JsonSerializable()
+class MeetingDetailData{
+  int? account_idx;
+  bool? is_register;
+  List<MeetingDetailDataRegister> register;
+  List<String>? image;
+  String? title;
+  String? type;
+  String? date;
+  String? status;
+  String? address;
+  String? place;
+  String? introduce;
+  MeetingDetailData({
+    required this.account_idx,
+    required this.is_register,
+    required this.register,
+    required this.image,
+    required this.title,
+    required this.type,
+    required this.date,
+    required this.status,
+    required this.address,
+    required this.place,
+    required this.introduce,
+});
+  factory MeetingDetailData.fromJson(Map<String, dynamic> json) => _$MeetingDetailDataFromJson(json);
+  Map<String, dynamic> toJson() => _$MeetingDetailDataToJson(this);
+}
+
+@JsonSerializable()
+class MeetingDetailDataRegister{
+  String? image;
+  MeetingDetailDataRegister({
+    required this.image
+});
+  factory MeetingDetailDataRegister.fromJson(Map<String, dynamic> json) => _$MeetingDetailDataRegisterFromJson(json);
+  Map<String, dynamic> toJson() => _$MeetingDetailDataRegisterToJson(this);
+}
+
+//---------------모임참가 api
+@JsonSerializable()
+class MeetingParticipateResponse{
+  bool? success;
+  String? message;
+  MeetingParticipateResponse({
+    required this.success,
+    required this.message,
+});
+  factory MeetingParticipateResponse.fromJson(Map<String, dynamic> json) => _$MeetingParticipateResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$MeetingParticipateResponseToJson(this);
+}
+
+@JsonSerializable()
+class MeetingParticipateRequest{
+  int? event_idx;
+  MeetingParticipateRequest({
+    required this.event_idx,
+});
+  factory MeetingParticipateRequest.fromJson(Map<String, dynamic> json) => _$MeetingParticipateRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$MeetingParticipateRequestToJson(this);
+}
+
+
+//---------------모임참가 취소 api
+@JsonSerializable()
+class MeetingCancelResponse{
+  bool? success;
+  String? message;
+  MeetingCancelResponse({
+    required this.success,
+    required this.message
+});
+  factory MeetingCancelResponse.fromJson(Map<String, dynamic> json) => _$MeetingCancelResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$MeetingCancelResponseToJson(this);
+}
+
+@JsonSerializable()
+class MeetingCancelRequest{
+  int? event_idx;
+  MeetingCancelRequest({
+    required this.event_idx,
+  });
+  factory MeetingCancelRequest.fromJson(Map<String, dynamic> json) => _$MeetingCancelRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$MeetingCancelRequestToJson(this);
 }

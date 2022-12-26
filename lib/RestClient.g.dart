@@ -230,6 +230,136 @@ Map<String, dynamic> _$MeetingListResponseDataToJson(
       'place': instance.place,
     };
 
+CreateMeetingResponse _$CreateMeetingResponseFromJson(
+        Map<String, dynamic> json) =>
+    CreateMeetingResponse(
+      success: json['success'] as bool?,
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$CreateMeetingResponseToJson(
+        CreateMeetingResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+    };
+
+MeetingDetailResponse _$MeetingDetailResponseFromJson(
+        Map<String, dynamic> json) =>
+    MeetingDetailResponse(
+      success: json['success'] as bool?,
+      message: json['message'] as String?,
+      data: json['data'] == null
+          ? null
+          : MeetingDetailData.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$MeetingDetailResponseToJson(
+        MeetingDetailResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
+    };
+
+MeetingDetailData _$MeetingDetailDataFromJson(Map<String, dynamic> json) =>
+    MeetingDetailData(
+      account_idx: json['account_idx'] as int?,
+      is_register: json['is_register'] as bool?,
+      register: (json['register'] as List<dynamic>)
+          .map((e) =>
+              MeetingDetailDataRegister.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      image:
+          (json['image'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      title: json['title'] as String?,
+      type: json['type'] as String?,
+      date: json['date'] as String?,
+      status: json['status'] as String?,
+      address: json['address'] as String?,
+      place: json['place'] as String?,
+      introduce: json['introduce'] as String?,
+    );
+
+Map<String, dynamic> _$MeetingDetailDataToJson(MeetingDetailData instance) =>
+    <String, dynamic>{
+      'account_idx': instance.account_idx,
+      'is_register': instance.is_register,
+      'register': instance.register,
+      'image': instance.image,
+      'title': instance.title,
+      'type': instance.type,
+      'date': instance.date,
+      'status': instance.status,
+      'address': instance.address,
+      'place': instance.place,
+      'introduce': instance.introduce,
+    };
+
+MeetingDetailDataRegister _$MeetingDetailDataRegisterFromJson(
+        Map<String, dynamic> json) =>
+    MeetingDetailDataRegister(
+      image: json['image'] as String?,
+    );
+
+Map<String, dynamic> _$MeetingDetailDataRegisterToJson(
+        MeetingDetailDataRegister instance) =>
+    <String, dynamic>{
+      'image': instance.image,
+    };
+
+MeetingParticipateResponse _$MeetingParticipateResponseFromJson(
+        Map<String, dynamic> json) =>
+    MeetingParticipateResponse(
+      success: json['success'] as bool?,
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$MeetingParticipateResponseToJson(
+        MeetingParticipateResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+    };
+
+MeetingParticipateRequest _$MeetingParticipateRequestFromJson(
+        Map<String, dynamic> json) =>
+    MeetingParticipateRequest(
+      event_idx: json['event_idx'] as int?,
+    );
+
+Map<String, dynamic> _$MeetingParticipateRequestToJson(
+        MeetingParticipateRequest instance) =>
+    <String, dynamic>{
+      'event_idx': instance.event_idx,
+    };
+
+MeetingCancelResponse _$MeetingCancelResponseFromJson(
+        Map<String, dynamic> json) =>
+    MeetingCancelResponse(
+      success: json['success'] as bool?,
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$MeetingCancelResponseToJson(
+        MeetingCancelResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+    };
+
+MeetingCancelRequest _$MeetingCancelRequestFromJson(
+        Map<String, dynamic> json) =>
+    MeetingCancelRequest(
+      event_idx: json['event_idx'] as int?,
+    );
+
+Map<String, dynamic> _$MeetingCancelRequestToJson(
+        MeetingCancelRequest instance) =>
+    <String, dynamic>{
+      'event_idx': instance.event_idx,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -415,6 +545,169 @@ class _RestClient implements RestClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MeetingListResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CreateMeetingResponse> getCreateMeetingResponse(
+    token,
+    image,
+    title,
+    type,
+    date,
+    start_time,
+    end_time,
+    address,
+    place,
+    register_number,
+    introduce,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'image',
+      MultipartFile.fromFileSync(
+        image.path,
+        filename: image.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    _data.fields.add(MapEntry(
+      'title',
+      title,
+    ));
+    _data.fields.add(MapEntry(
+      'type',
+      type,
+    ));
+    _data.fields.add(MapEntry(
+      'date',
+      date,
+    ));
+    _data.fields.add(MapEntry(
+      'start_time',
+      start_time,
+    ));
+    _data.fields.add(MapEntry(
+      'end_time',
+      end_time,
+    ));
+    _data.fields.add(MapEntry(
+      'address',
+      address,
+    ));
+    _data.fields.add(MapEntry(
+      'place',
+      place,
+    ));
+    _data.fields.add(MapEntry(
+      'register_number',
+      register_number.toString(),
+    ));
+    _data.fields.add(MapEntry(
+      'introduce',
+      introduce,
+    ));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CreateMeetingResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+            .compose(
+              _dio.options,
+              '/event',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CreateMeetingResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MeetingDetailResponse> getMeetingDetailResponse(
+    token,
+    event_idx,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'event_idx': event_idx};
+    final _headers = <String, dynamic>{r'token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MeetingDetailResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MeetingDetailResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MeetingParticipateResponse> getMeetingParticipateResponse(
+    token,
+    meetingParticipateRequest,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(meetingParticipateRequest.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MeetingParticipateResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/register',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MeetingParticipateResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MeetingCancelResponse> getMeetingCancelResponse(
+    token,
+    meetingCancelRequest,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(meetingCancelRequest.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MeetingCancelResponse>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/register',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MeetingCancelResponse.fromJson(_result.data!);
     return value;
   }
 

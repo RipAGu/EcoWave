@@ -226,21 +226,50 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
   }
 
   settingBtnEvent() {
-    settingProfile();
+    if(_nameController.text == "") yes("이름을 입력하세요");
+    else if(_introduceController.text == "") yes("소개를 입력하세요");
+    else if(_image == null) yes("사진을 선택해주세요");
+    else{
+      settingProfile();
+    }
     log('click');
     // Navigator.of(context).pushNamedAndRemoveUntil('/mainNavigation', ModalRoute.withName('/'));
 
   }
   
   void settingProfile() async{
-    log(_image.toString());
-    log(_image!.path.toString());
-
-    dynamic sendData = _image!.path;
-    var formData = FormData.fromMap({'image' : await MultipartFile.fromFile(sendData, filename: "image")});
     var posResponse = await client.getProfileResponse(token!, _image!, true, _nameController.text, _introduceController.text);
+    if(posResponse.success == false){
+      yes(posResponse.message!);
+    }
+  }
 
+  Future yes(String msg) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(msg,
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Plus_Jakarta_Sans',
+                  fontSize: 20),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
 
+                },
+                child: Text(
+                  '네',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          );
+        });
   }
 
 
