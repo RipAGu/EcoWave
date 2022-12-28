@@ -11,6 +11,7 @@ import 'package:eco_wave/RegisterPage3.dart';
 import 'package:eco_wave/ResigterPage1.dart';
 import 'package:eco_wave/SearchSettingPage.dart';
 import 'package:eco_wave/SettingPage.dart';
+import 'package:eco_wave/test.dart';
 import 'package:flutter/material.dart';
 
 void main() {

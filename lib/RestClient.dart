@@ -117,7 +117,7 @@ class LoginResponse{
 
 @JsonSerializable()
 class LoginData{
-  String token;
+  String? token;
 
   LoginData({
     required this.token

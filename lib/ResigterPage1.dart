@@ -71,18 +71,16 @@ class _RegisterPage1 extends State<RegisterPage1> {
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Color(0xffD6D6D6)),
             borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: SizedBox(
-          child: TextField(
-            controller: _emailController,
-            style: TextStyle(fontFamily: 'Source_Sans_Pro'),
-            decoration: InputDecoration(
-                border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: TextField(
+          controller: _emailController,
+          style: TextStyle(fontFamily: 'Source_Sans_Pro'),
+          decoration: InputDecoration(
+              border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
 
-            hintText: "이메일 주소",
-            hintStyle: TextStyle(color: Color(0xff878787))),
-      ),
-    )
+          hintText: "이메일 주소",
+          hintStyle: TextStyle(color: Color(0xff878787))),
+      )
     );
   }
 
