@@ -440,3 +440,4 @@ class MeetingCancelRequest{
   factory MeetingCancelRequest.fromJson(Map<String, dynamic> json) => _$MeetingCancelRequestFromJson(json);
   Map<String, dynamic> toJson() => _$MeetingCancelRequestToJson(this);
 }
+

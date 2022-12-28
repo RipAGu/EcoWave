@@ -33,12 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     Dio dio = Dio();
     client = RestClient(dio);
 
-    log('test');
 
-    Future.microtask(() async{
-      final resp = await client.getLoginData(loginRequest);
-      log(resp.success.toString());
-    });
   }
 
 
@@ -171,6 +166,7 @@ class _LoginPageState extends State<LoginPage> {
         child: SizedBox(
           height: 40,
           child: TextField(
+            obscureText: true,
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             controller: _passwordController,
             decoration: InputDecoration(
@@ -203,7 +199,10 @@ class _LoginPageState extends State<LoginPage> {
       pref.setString("token", posResponse.data!.token);
       Navigator.push(context, MaterialPageRoute(builder: (context) => MainNavigation(posResponse.data!.token)));
 
+    }
 
+    else{
+      yes(posResponse.message!);
     }
 
   }
@@ -214,9 +213,7 @@ class _LoginPageState extends State<LoginPage> {
       height: MediaQuery.of(context).size.height * 0.055,
       child: ElevatedButton(
         onPressed: () {
-          if(_emailController.text == null){
-
-          }
+          
           loginBtnEvent();
         },
         child: Text(

@@ -1,6 +1,13 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ModifyProfilePage extends StatefulWidget{
   @override
@@ -9,6 +16,25 @@ class ModifyProfilePage extends StatefulWidget{
 
 
 class _ModifyProfilePage extends State<ModifyProfilePage>{
+  File? _image;
+  var _nameController = TextEditingController();
+  var _introduceController = TextEditingController();
+  late RestClient client;
+  String? token;
+
+  @override
+  void initState(){
+    super.initState();
+    loadToken();
+    Dio dio = Dio();
+    client = RestClient(dio);
+  }
+  loadToken() async{
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    token = pref.getString("token");
+    log(token!);
+  }
+
 
   @override
   Widget build(BuildContext context){
@@ -45,14 +71,9 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
                     ],
                   ),
                   Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.043),
-                      child: SizedBox(
-                        child: SvgPicture.asset(
-                          'assets/icons/avatar_1.svg',
-                          width: MediaQuery.of(context).size.width * 0.144,
-                        ),
-                      )
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.043),
+                    child: imageProfile(),
 
                   ),
                   Container(
@@ -111,7 +132,7 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
                       introduceField(),
                     ],
                   ),
-                  Container(margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.450),),
+                  Container(margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.35),),
                   settingBtn(context)
 
                 ],
@@ -120,8 +141,33 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
 
             )));
   }
+  Widget imageProfile(){
+    return Center(
+      child: Stack(
+        children: <Widget>[
+          CircleAvatar(
+              radius: 80,
+              backgroundImage: _image == null
+                  ? AssetImage('assets/icons/location_icon.png')
+                  : Image.file(_image!).image
+          )
+        ],
+      ),
+    );
+  }
 
-  pictureSetting() {}
+
+  pictureSetting() {
+    _getImage();
+  }
+
+  Future _getImage() async{
+    var picker = ImagePicker();
+    var image = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = File(image!.path);
+    });
+  }
 
   Widget nameField() {
     return Container(
@@ -132,6 +178,7 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.72,
           child: TextField(
+            controller: _nameController,
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
                 isDense: true,
@@ -153,6 +200,7 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.72,
           child: TextField(
+            controller: _introduceController,
             style: TextStyle(fontFamily: 'Source_Sans_Pro'),
             decoration: InputDecoration(
                 isDense: true,
@@ -188,8 +236,63 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
     );
   }
 
+  void settingProfile() async{
+    var posResponse = await client.getProfileResponse(token!, _image!, true, _nameController.text, _introduceController.text);
+    if(posResponse.success == false){
+      yes(posResponse.message!);
+    }
+    else{
+      yes("수정이 완료되었습니다");
+
+    }
+  }
+
   settingBtnEvent() {
-    Navigator.of(context).pop();
+    if(_nameController.text == "") yes("이름을 입력하세요");
+    else if(_introduceController.text == "") yes("소개를 입력하세요");
+    else if(_image == null) yes("사진을 선택해주세요");
+    else{
+      settingProfile();
+    }
+    // Navigator.of(context).pushNamedAndRemoveUntil('/mainNavigation', ModalRoute.withName('/'));
 
   }
+
+  Future yes(String msg) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(msg,
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Plus_Jakarta_Sans',
+                  fontSize: 20),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () {
+                  if(msg == "수정이 완료되었습니다") {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    _introduceController.clear();
+                    _nameController.clear();
+                  }
+                  else {
+                    Navigator.pop(context);
+                  }
+
+
+                },
+                child: Text(
+                  '네',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+
 }
