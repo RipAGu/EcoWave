@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-import 'package:eco_wave/ResigterPage1.dart';
 import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,20 +23,12 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   static final _emailController = TextEditingController();
   static final _passwordController = TextEditingController();
-  LoginRequest loginRequest = LoginRequest(email: 'test', pw: 'test');
 
   @override
   void initState(){
     super.initState();
     Dio dio = Dio();
     client = RestClient(dio);
-
-    log('test');
-
-    Future.microtask(() async{
-      final resp = await client.getLoginData(loginRequest);
-      log(resp.success.toString());
-    });
   }
 
 
