@@ -34,7 +34,7 @@ Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
     };
 
 LoginData _$LoginDataFromJson(Map<String, dynamic> json) => LoginData(
-      token: json['token'] as String,
+      token: json['token'] as String?,
     );
 
 Map<String, dynamic> _$LoginDataToJson(LoginData instance) => <String, dynamic>{

@@ -262,12 +262,9 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
             actions: [
               CupertinoDialogAction(
                 onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                   Navigator.push(context, MaterialPageRoute(builder: (context) => MainNavigation(token!)));
-
-
 
                 },
                 child: Text(

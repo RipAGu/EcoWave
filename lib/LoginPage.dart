@@ -186,10 +186,11 @@ class _LoginPageState extends State<LoginPage> {
 
     if(posResponse.success == true){
       final SharedPreferences pref = await SharedPreferences.getInstance();
-      pref.setString("token", posResponse.data!.token);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MainNavigation(posResponse.data!.token)));
-
-
+      pref.setString("token", posResponse.data!.token!);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MainNavigation(posResponse.data!.token!)));
+    }
+    else{
+      yes(posResponse.message!);
     }
 
   }
