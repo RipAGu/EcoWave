@@ -264,6 +264,7 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pop(context);
+                  Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (context) => MainNavigation(token!)));
 
 
