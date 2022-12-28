@@ -37,8 +37,6 @@ class MyApp extends StatelessWidget {
         '/registerPage3' : (BuildContext context) => RegisterPage3(),
         '/profileSettingPage' : (BuildContext context) => ProfileSettingPage(),
         '/createMeetingPage' : (BuildContext context) => CreateMeetingPage(),
-        '/myPage' : (BuildContext context) => MyPage(),
-        '/modifyProfilePage' : (BuildContext context) => ModifyProfilePage(),
         '/settingPage' : (BuildContext context) => SettingPage(),
         '/searchSettingPage' : (BuildContext context) => SearchSettingPage(),
       },

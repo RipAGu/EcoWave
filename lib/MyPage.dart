@@ -1,13 +1,23 @@
+import 'package:dio/dio.dart';
+import 'package:eco_wave/ModifyProfilePage.dart';
+import 'package:eco_wave/RestClient.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MyPage extends StatefulWidget {
+  String? token;
+  MyPage(String token){
+    this.token = token;
+  }
+
   @override
-  _MyPage createState() => _MyPage();
+  _MyPage createState() => _MyPage(token!);
 }
 
 class _MyPage extends State<MyPage> {
+  late RestClient client;
+  String? token;
   var data = [
     ['여의도에서 산책하며 플로깅해요', '플로깅', '3월 5일 일요일 14:00~16:00', '1/4', '여의도 한강공원'],
     ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
@@ -20,6 +30,18 @@ class _MyPage extends State<MyPage> {
     ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
     ['인왕산 등산하면서 클린산행해요', '클린산행', '3월 11일 토요일 09:00~13:00', '3/4', '인왕산'],
   ];
+
+  _MyPage(String token){
+    this.token = token;
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    Dio dio = Dio();
+    client = RestClient(dio);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -524,7 +546,7 @@ class _MyPage extends State<MyPage> {
   }
 
   profileModifyBtnEvent(){
-    Navigator.of(context).pushNamed('/modifyProfilePage');
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ModifyProfilePage(token!)));
 
   }
 }

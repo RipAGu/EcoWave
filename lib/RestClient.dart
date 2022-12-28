@@ -77,6 +77,10 @@ abstract class RestClient{
       @Header("token") String token,
       @Body() MeetingCancelRequest meetingCancelRequest
       );
+  @GET("/profile")
+  Future<GetProfileResponse> getMyProfileResponse(
+      @Header("token") String token
+      );
 }
 
 
@@ -441,3 +445,32 @@ class MeetingCancelRequest{
   Map<String, dynamic> toJson() => _$MeetingCancelRequestToJson(this);
 }
 
+
+//--------------프로필 정보 가져오기 api
+@JsonSerializable()
+class GetProfileResponse{
+  bool? success;
+  String? message;
+  GetProfileResponse? data;
+  GetProfileResponse({
+    required this.success,
+    required this.message,
+    required this.data
+});
+  factory GetProfileResponse.fromJson(Map<String, dynamic> json) => _$GetProfileResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$GetProfileResponseToJson(this);
+
+}
+@JsonSerializable()
+class GetProfileResponseData{
+  String? image;
+  String? name;
+  String? introduce;
+  GetProfileResponseData({
+    required this.image,
+    required this.name,
+    required this.introduce
+});
+  factory GetProfileResponseData.fromJson(Map<String, dynamic> json) => _$GetProfileResponseDataFromJson(json);
+  Map<String, dynamic> toJson() => _$GetProfileResponseDataToJson(this);
+}

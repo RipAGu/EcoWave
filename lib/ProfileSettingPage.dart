@@ -212,16 +212,16 @@ class _ProfileSettingPage extends State<ProfileSettingPage> {
   }
 
   Widget imageProfile(){
-    return Center(
-      child: Stack(
-        children: <Widget>[
-          CircleAvatar(
+    return Container(
+      width: 100,
+      height: 100,
+      child: Center(
+        child: CircleAvatar(
             radius: 80,
             backgroundImage: _image == null
-              ? AssetImage('assets/icons/location_icon.png')
+                ? AssetImage('assets/icons/location_icon.png')
                 : Image.file(_image!).image
-          )
-        ],
+        ),
       ),
     );
   }

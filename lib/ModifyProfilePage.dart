@@ -10,8 +10,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ModifyProfilePage extends StatefulWidget{
+  String? token;
+  ModifyProfilePage(String token){
+    this.token = token;
+
+  }
+
   @override
-  _ModifyProfilePage createState() => _ModifyProfilePage();
+  _ModifyProfilePage createState() => _ModifyProfilePage(token!);
 }
 
 
@@ -22,17 +28,17 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
   late RestClient client;
   String? token;
 
+  _ModifyProfilePage(String token){
+    this.token = token;
+  }
+
+
+
   @override
   void initState(){
     super.initState();
-    loadToken();
     Dio dio = Dio();
     client = RestClient(dio);
-  }
-  loadToken() async{
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    token = pref.getString("token");
-    log(token!);
   }
 
 
@@ -142,19 +148,20 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
             )));
   }
   Widget imageProfile(){
-    return Center(
-      child: Stack(
-        children: <Widget>[
-          CircleAvatar(
-              radius: 80,
-              backgroundImage: _image == null
-                  ? AssetImage('assets/icons/location_icon.png')
-                  : Image.file(_image!).image
-          )
-        ],
+    return Container(
+      width: 100,
+      height: 100,
+      child: Center(
+        child: CircleAvatar(
+            radius: 80,
+            backgroundImage: _image == null
+                ? AssetImage('assets/icons/avatar_2.png')
+                : Image.file(_image!).image
+        ),
       ),
     );
   }
+
 
 
   pictureSetting() {
@@ -166,6 +173,7 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
     var image = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = File(image!.path);
+
     });
   }
 
@@ -237,7 +245,10 @@ class _ModifyProfilePage extends State<ModifyProfilePage>{
   }
 
   void settingProfile() async{
-    var posResponse = await client.getProfileResponse(token!, _image!, true, _nameController.text, _introduceController.text);
+    var sendImage;
+    if(_image == null) sendImage = "";
+    else sendImage = _image;
+    var posResponse = await client.getProfileResponse(token!, sendImage, true, _nameController.text, _introduceController.text);
     if(posResponse.success == false){
       yes(posResponse.message!);
     }

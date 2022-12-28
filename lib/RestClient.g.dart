@@ -360,6 +360,38 @@ Map<String, dynamic> _$MeetingCancelRequestToJson(
       'event_idx': instance.event_idx,
     };
 
+GetProfileResponse _$GetProfileResponseFromJson(Map<String, dynamic> json) =>
+    GetProfileResponse(
+      success: json['success'] as bool?,
+      message: json['message'] as String?,
+      data: json['data'] == null
+          ? null
+          : GetProfileResponse.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$GetProfileResponseToJson(GetProfileResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
+    };
+
+GetProfileResponseData _$GetProfileResponseDataFromJson(
+        Map<String, dynamic> json) =>
+    GetProfileResponseData(
+      image: json['image'] as String?,
+      name: json['name'] as String?,
+      introduce: json['introduce'] as String?,
+    );
+
+Map<String, dynamic> _$GetProfileResponseDataToJson(
+        GetProfileResponseData instance) =>
+    <String, dynamic>{
+      'image': instance.image,
+      'name': instance.name,
+      'introduce': instance.introduce,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -708,6 +740,30 @@ class _RestClient implements RestClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MeetingCancelResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<GetProfileResponse> getMyProfileResponse(token) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<GetProfileResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/profile',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = GetProfileResponse.fromJson(_result.data!);
     return value;
   }
 

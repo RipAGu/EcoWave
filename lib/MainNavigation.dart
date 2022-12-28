@@ -31,7 +31,7 @@ class _MainNavigation extends State<MainNavigation>{
 
   @override
   Widget build(BuildContext context){
-    var _children = [MainPage(token!), MainPage(token!), MyPage()];
+    var _children = [MainPage(token!), MainPage(token!), MyPage(token!)];
 
     return Scaffold(
       body: IndexedStack(
