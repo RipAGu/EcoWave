@@ -59,8 +59,6 @@ class _MainPage extends State<MainPage> {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     token = pref.getString("token");
 
-    // bannerTest();
-
   }
 
 
